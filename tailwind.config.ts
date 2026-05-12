@@ -1,99 +1,162 @@
-// AUTO-GENERATED — do not edit manually. Run: pnpm tokens:build
-// Source: Brand-Tokens.json v2.0.0
+/*
+ * GENERATED FILE — DO NOT EDIT.
+ * Source of truth: Brand-Tokens.json (company brand/).
+ * Regenerate with `pnpm run tokens:build`.
+ *
+ * Tailwind v4 reads its theme from the @theme block in
+ * src/styles/tokens.css. This config file exists for downstream tools
+ * (Storybook, IDE plugins) and for type-safe reference. Each value
+ * points at the corresponding CSS variable so behaviour is identical.
+ */
+
 import type { Config } from 'tailwindcss';
 
 const config: Config = {
   content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
   theme: {
     extend: {
-      colors: {
-        black: '#000000',
-        white: '#FFFFFF',
-        blue: {
-          100: '#E8E8FF',
-          200: '#BCBCFF',
-          300: '#8F8FFF',
-          500: '#6161FE',
-          700: '#2323FE',
+      "colors": {
+        "black": "var(--color-base-black)",
+        "white": "var(--color-base-white)",
+        "gray": {
+          "100": "var(--color-gray-100)",
+          "200": "var(--color-gray-200)",
+          "500": "var(--color-gray-500)",
+          "800": "var(--color-gray-800)",
+          "900": "var(--color-gray-900)"
         },
-        coral: {
-          100: '#FFEDEA',
-          200: '#FEC4BC',
-          300: '#FE8A72',
-          500: '#FF6D4E',
-          700: '#E8540A',
+        "blue": {
+          "100": "var(--color-blue-100)",
+          "200": "var(--color-blue-200)",
+          "300": "var(--color-blue-300)",
+          "500": "var(--color-blue-500)",
+          "700": "var(--color-blue-700)"
         },
-        navy: {
-          100: '#D8DFF4',
-          200: '#A6B6E6',
-          400: '#7290D8',
-          700: '#32497B',
-          900: '#1B2A4A',
+        "green": {
+          "100": "var(--color-green-100)",
+          "300": "var(--color-green-300)",
+          "500": "var(--color-green-500)",
+          "700": "var(--color-green-700)",
+          "900": "var(--color-green-900)"
         },
-        green: {
-          100: '#B9FFC0',
-          300: '#09E549',
-          500: '#05B839',
-          700: '#038E2A',
-          900: '#01661C',
+        "navy": {
+          "100": "var(--color-navy-100)",
+          "200": "var(--color-navy-200)",
+          "400": "var(--color-navy-400)",
+          "700": "var(--color-navy-700)",
+          "900": "var(--color-navy-900)"
         },
-        gray: {
-          100: '#D6D6D6',
-          200: '#AFAFAF',
-          500: '#656565',
-          800: '#242424',
-          900: '#000000',
+        "coral": {
+          "100": "var(--color-coral-100)",
+          "200": "var(--color-coral-200)",
+          "300": "var(--color-coral-300)",
+          "500": "var(--color-coral-500)",
+          "700": "var(--color-coral-700)"
         },
-        whatsapp: '#25D366',
+        "bg-surface": "var(--bg-surface)",
+        "bg-surface-alt": "var(--bg-surface-alt)",
+        "bg-inverse": "var(--bg-inverse)",
+        "bg-brand": "var(--bg-brand)",
+        "text-primary": "var(--text-primary)",
+        "text-secondary": "var(--text-secondary)",
+        "text-muted": "var(--text-muted)",
+        "text-inverse": "var(--text-inverse)",
+        "text-accent": "var(--text-accent)",
+        "link": "var(--link)",
+        "link-hover": "var(--link-hover)",
+        "border-default": "var(--border-default)",
+        "border-strong": "var(--border-strong)",
+        "focus-ring": "var(--focus-ring)",
+        "success": "var(--success)",
+        "warning": "var(--warning)",
+        "error": "var(--error)",
+        "highlight": "var(--highlight)",
+        "deep": "var(--deep)",
+        "whatsapp": "var(--whatsapp)"
       },
-      fontFamily: {
-        display: ["'Mona Sans'","system-ui","-apple-system","sans-serif"],
-        body: ["'Mona Sans'","system-ui","-apple-system","sans-serif"],
-        mono: ["'JetBrains Mono'","ui-monospace","'SF Mono'","Menlo","monospace"],
+      "backgroundImage": {
+        "sparkle": "var(--gradient-sparkle)",
+        "sparkle_radial": "var(--gradient-sparkle-radial)"
       },
-      fontSize: {
-        'display-xl': ['clamp(48px,8vw,110px)', { lineHeight: '1.05' }],
-        h1: ['clamp(40px,6vw,80px)', { lineHeight: '1.1' }],
-        h2: ['clamp(28px,3.2vw,38px)', { lineHeight: '1.2' }],
-        h3: ['30px', { lineHeight: '1.3' }],
-        h4: ['24px', { lineHeight: '1.4' }],
-        h5: ['21px', { lineHeight: '1.4' }],
-        h6: ['19px', { lineHeight: '1.4' }],
-        'body-xl': ['24px', { lineHeight: '1.5' }],
-        'body-lg': ['17px', { lineHeight: '1.5' }],
-        body: ['15px', { lineHeight: '1.5' }],
-        'body-sm': ['13px', { lineHeight: '1.5' }],
-        footnote: ['12px', { lineHeight: '1.5' }],
+      "spacing": {
+        "0": "var(--space-0)",
+        "1": "var(--space-1)",
+        "2": "var(--space-2)",
+        "3": "var(--space-3)",
+        "4": "var(--space-4)",
+        "5": "var(--space-5)",
+        "6": "var(--space-6)",
+        "8": "var(--space-8)",
+        "10": "var(--space-10)",
+        "12": "var(--space-12)",
+        "16": "var(--space-16)",
+        "20": "var(--space-20)",
+        "24": "var(--space-24)",
+        "32": "var(--space-32)",
+        "40": "var(--space-40)"
       },
-      spacing: {
-        1: '4px', 2: '8px', 3: '12px', 4: '16px', 5: '20px',
-        6: '24px', 8: '32px', 10: '40px', 12: '48px', 16: '64px',
-        20: '80px', 24: '96px', 32: '128px', 40: '160px',
+      "borderRadius": {
+        "none": "var(--radius-none)",
+        "sm": "var(--radius-sm)",
+        "md": "var(--radius-md)",
+        "lg": "var(--radius-lg)",
+        "xl": "var(--radius-xl)",
+        "full": "var(--radius-full)"
       },
-      borderRadius: {
-        none: '0', sm: '6px', md: '10px', lg: '16px', xl: '24px', full: '9999px',
+      "boxShadow": {
+        "none": "var(--shadow-none)",
+        "card": "var(--shadow-card)",
+        "modal": "var(--shadow-modal)",
+        "focus": "var(--shadow-focus)"
       },
-      boxShadow: {
-        card: '0 1px 2px rgba(0,0,0,0.04)',
-        modal: '0 8px 24px rgba(0,0,0,0.08)',
-        focus: '0 0 0 3px rgba(35, 35, 254, 0.35)',
+      "fontFamily": {
+        "display": "var(--font-display)",
+        "body": "var(--font-body)",
+        "secondary": "var(--font-secondary)",
+        "mono": "var(--font-mono)"
       },
-      backgroundImage: {
-        sparkle: 'linear-gradient(180deg, #5BC5C5 0%, #B69BFF 28%, #FF6D4E 55%, #6161FE 100%)',
-        'sparkle-radial': 'radial-gradient(circle at 50% 30%, #5BC5C5, #FF6D4E 60%, #6161FE)',
+      "fontSize": {
+        "display_xl": "var(--text-display-xl)",
+        "h1": "var(--text-h1)",
+        "h2": "var(--text-h2)",
+        "h3": "var(--text-h3)",
+        "h4": "var(--text-h4)",
+        "h5": "var(--text-h5)",
+        "h6": "var(--text-h6)",
+        "body_xl": "var(--text-body-xl)",
+        "body_lg": "var(--text-body-lg)",
+        "body": "var(--text-body)",
+        "body_sm": "var(--text-body-sm)",
+        "footnote": "var(--text-footnote)"
       },
-      maxWidth: {
-        container: '1280px',
-        prose: '720px',
+      "fontWeight": {
+        "regular": "var(--font-weight-regular)",
+        "medium": "var(--font-weight-medium)",
+        "semibold": "var(--font-weight-semibold)",
+        "bold": "var(--font-weight-bold)",
+        "extra": "var(--font-weight-extra)"
       },
-      transitionDuration: {
-        DEFAULT: '200ms',
-        fast: '120ms',
-        slow: '400ms',
+      "screens": {
+        "sm": "var(--breakpoint-sm)",
+        "md": "var(--breakpoint-md)",
+        "lg": "var(--breakpoint-lg)",
+        "xl": "var(--breakpoint-xl)",
+        "2xl": "var(--breakpoint-2xl)"
       },
+      "transitionDuration": {
+        "instant": "var(--duration-instant)",
+        "fast": "var(--duration-fast)",
+        "default": "var(--duration-default)",
+        "slow": "var(--duration-slow)"
+      },
+      "transitionTimingFunction": {
+        "default": "var(--ease-default)",
+        "in": "var(--ease-in)",
+        "out": "var(--ease-out)",
+        "in_out": "var(--ease-in-out)"
+      }
     },
   },
-  plugins: [],
 };
 
 export default config;

@@ -6,6 +6,7 @@
   "packageManager": "pnpm@9.0.0",
   "scripts": {
     "tokens:build": "node --import tsx/esm scripts/build-tokens.ts",
+    "tokens:verify": "node --import tsx/esm scripts/build-tokens.ts --check",
     "dev": "pnpm tokens:build && astro dev",
     "start": "astro dev",
     "build": "pnpm tokens:build && astro check && astro build",
