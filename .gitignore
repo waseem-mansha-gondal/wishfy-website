@@ -2,6 +2,9 @@
 dist/
 .astro/
 
+# parallel feature worktrees (convention: _wisNN/)
+_wis*/
+
 # deps
 node_modules/
 
