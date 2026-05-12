@@ -1,5 +1,17 @@
 User-agent: *
 Allow: /
 
-# Sitemap is generated at build time by @astrojs/sitemap.
-Sitemap: /sitemap-index.xml
+# AI crawlers — explicitly allow so we are indexable by AI surfaces.
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+Sitemap: https://wishfy.ai/sitemap-index.xml

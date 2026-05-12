@@ -1,0 +1,98 @@
+---
+import { NAV, SITE } from "../consts";
+const pathname = Astro.url.pathname;
+---
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="/" class="brand" aria-label={`${SITE.name} home`}>
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span class="brand-name">{SITE.name}</span>
+    </a>
+    <nav aria-label="Primary">
+      <ul>
+        {
+          NAV.map((item) => {
+            const isActive =
+              item.href === "/"
+                ? pathname === "/"
+                : pathname.startsWith(item.href);
+            return (
+              <li>
+                <a href={item.href} aria-current={isActive ? "page" : undefined}>
+                  {item.label}
+                </a>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--bg) 90%, transparent);
+    backdrop-filter: saturate(180%) blur(10px);
+    -webkit-backdrop-filter: saturate(180%) blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+  .header-inner {
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: var(--space-4) var(--space-5);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-5);
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    text-decoration: none;
+    color: var(--fg);
+    font-weight: 700;
+    font-size: var(--text-lg);
+    font-family: var(--font-display);
+  }
+  .brand-mark {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 999px;
+    background: var(--gradient-sparkle);
+    display: inline-block;
+  }
+  nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: var(--space-5);
+  }
+  nav a {
+    color: var(--fg-muted);
+    text-decoration: none;
+    font-size: var(--text-sm);
+    font-weight: 500;
+  }
+  nav a:hover {
+    color: var(--fg);
+  }
+  nav a[aria-current="page"] {
+    color: var(--accent);
+    font-weight: 600;
+  }
+  @media (max-width: 560px) {
+    nav ul {
+      gap: var(--space-4);
+    }
+    .brand-name {
+      display: none;
+    }
+  }
+</style>

@@ -1,20 +1,265 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Container from "../components/Container.astro";
+import Section from "../components/Section.astro";
+import Hero from "../components/Hero.astro";
+import Button from "../components/Button.astro";
 import { SITE } from "../consts";
+
+const services = [
+  {
+    slug: "content-ignition",
+    title: "Content Ignition",
+    tag: "One-off launch — $6,500",
+    summary:
+      "Audit, 12-week editorial plan, and four optimised long-form articles. The foundation a content engine needs before it commits to a retainer.",
+  },
+  {
+    slug: "content-growth",
+    title: "Content Growth",
+    tag: "Retainer — $4,500/mo",
+    summary:
+      "Four long-form articles a month with strategy, internal-linking, and an outcomes report. The compounding engagement for teams ready to publish.",
+  },
+  {
+    slug: "content-authority",
+    title: "Content Authority",
+    tag: "Retainer — $8,500/mo",
+    summary:
+      "Eight articles plus two citable assets monthly, plus GEO/AEO layer to earn citations across ChatGPT, Claude, Perplexity, and Gemini.",
+  },
+];
+
+const kpis = [
+  { label: "LLM surfaces tracked", value: "4" },
+  { label: "Days to first wins", value: "30" },
+  { label: "Languages supported", value: "EN · NL · DE · FR" },
+];
+
+const whyWishfy = [
+  {
+    title: "We measure outcomes, not activity.",
+    body: "Reports come with decisions, not dashboards. Every recommendation ships in under a week.",
+  },
+  {
+    title: "We ship code, not just decks.",
+    body: "When the strategy points to your site as the problem, we fix it — schema, build, and copy.",
+  },
+  {
+    title: "We refuse what doesn't deserve to rank.",
+    body: "No PBNs, no AI-spam. Honest content, citable signals, and entity authority that compounds.",
+  },
+];
 ---
 
 <BaseLayout title={SITE.name} description={SITE.description}>
-  <h1>Hello, client.</h1>
-  <p>
-    This is a starter site built on the <strong>Wishfy website stack</strong>:
-    Astro, Cloudflare Pages, GitHub Actions, and a privacy-friendly analytics
-    + SEO baseline that is ready to ship.
-  </p>
-  <p>
-    Edit <code>src/pages/index.astro</code> and
-    <code>src/consts.ts</code> to make it yours.
-  </p>
-  <p>
-    <a href="/sitemap-index.xml">View sitemap →</a>
-  </p>
+  <Section>
+    <Container>
+      <Hero
+        eyebrow="AI-native search visibility"
+        title={SITE.tagline}
+        lede="Wishfy makes your business the obvious answer in Google, ChatGPT, Claude, Perplexity, and every search that matters in 2026. Get found. Get cited. Get chosen."
+      >
+        <Button href="/contact/">Book a visibility audit →</Button>
+        <Button href="/services/" variant="ghost">See services</Button>
+      </Hero>
+    </Container>
+  </Section>
+
+  <Section tone="muted">
+    <Container>
+      <ul class="kpi-row">
+        {
+          kpis.map((k) => (
+            <li>
+              <p class="kpi-value">{k.value}</p>
+              <p class="kpi-label">{k.label}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </Container>
+  </Section>
+
+  <Section>
+    <Container>
+      <p class="eyebrow">What we do</p>
+      <h2>Three productized content packages.</h2>
+      <p class="section-lede">
+        We picked three packages, not a menu. Each one has explicit deliverables
+        and an honest price. If a need falls between them, we scope down within
+        a tier — we don't invent new ones.
+      </p>
+      <ul class="cards">
+        {
+          services.map((s) => (
+            <li>
+              <a href={`/services/${s.slug}/`}>
+                <p class="tag">{s.tag}</p>
+                <h3>{s.title}</h3>
+                <p class="card-body">{s.summary}</p>
+                <p class="more">Learn more →</p>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </Container>
+  </Section>
+
+  <Section tone="muted">
+    <Container>
+      <p class="eyebrow">Why Wishfy</p>
+      <ul class="three-up">
+        {
+          whyWishfy.map((row) => (
+            <li>
+              <h3>{row.title}</h3>
+              <p>{row.body}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </Container>
+  </Section>
+
+  <Section>
+    <Container>
+      <div class="cta">
+        <h2>Ready to be the obvious answer?</h2>
+        <p>
+          Book a 20-minute visibility audit. We'll come back with a written plan
+          and an honest price band within one business day.
+        </p>
+        <div class="cta-actions">
+          <Button href="/contact/">Book now →</Button>
+          <Button
+            href={`https://wa.me/${SITE.whatsappNumber}`}
+            variant="whatsapp"
+            rel="noopener"
+          >
+            Chat on WhatsApp
+          </Button>
+        </div>
+      </div>
+    </Container>
+  </Section>
 </BaseLayout>
+
+<style>
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    margin: 0 0 var(--space-3);
+  }
+  .section-lede {
+    color: var(--fg-muted);
+    font-size: var(--text-lg);
+    max-width: 44rem;
+    margin: 0 0 var(--space-6);
+  }
+  .kpi-row {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-5);
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  }
+  .kpi-value {
+    font-family: var(--font-display);
+    font-size: var(--text-4xl);
+    font-weight: 700;
+    margin: 0;
+    color: var(--accent);
+  }
+  .kpi-label {
+    color: var(--fg-muted);
+    font-size: var(--text-sm);
+    margin: 0;
+  }
+  .cards {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: var(--space-5);
+    grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+  }
+  .cards > li > a {
+    display: block;
+    padding: var(--space-6);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    color: inherit;
+    height: 100%;
+    transition:
+      transform var(--duration-fast) var(--ease-out),
+      border-color var(--duration-fast) var(--ease-out);
+  }
+  .cards > li > a:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent);
+  }
+  .cards .tag {
+    color: var(--accent);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin: 0 0 var(--space-2);
+  }
+  .cards h3 {
+    margin: 0 0 var(--space-3);
+  }
+  .cards .card-body {
+    color: var(--fg-muted);
+    margin: 0 0 var(--space-4);
+  }
+  .more {
+    color: var(--link);
+    font-weight: 600;
+    margin: 0;
+  }
+  .three-up {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-5);
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  }
+  .three-up h3 {
+    margin: 0 0 var(--space-2);
+  }
+  .three-up p {
+    color: var(--fg-muted);
+    margin: 0;
+  }
+  .cta {
+    text-align: center;
+    max-width: 36rem;
+    margin: 0 auto;
+    padding: var(--space-6);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+  }
+  .cta h2 {
+    margin: 0 0 var(--space-3);
+  }
+  .cta p {
+    color: var(--fg-muted);
+    margin: 0 0 var(--space-5);
+  }
+  .cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    justify-content: center;
+  }
+</style>

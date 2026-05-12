@@ -1,0 +1,122 @@
+---
+import ProseLayout from "../../layouts/ProseLayout.astro";
+import Button from "../../components/Button.astro";
+import { breadcrumbSchema, serviceSchema, faqSchema } from "../../lib/schema";
+
+const title = "Content Growth";
+const summary =
+  "Monthly retainer with four optimised articles, internal-linking maintenance, and an outcomes report. Three-month minimum.";
+const url = "/services/content-growth/";
+const siteUrl = Astro.site ?? new URL("https://wishfy.ai");
+
+const faqs = [
+  {
+    q: "Why a 3-month minimum?",
+    a: "Below three months, organic-traffic attribution is unreliable and clients churn before the work has a chance to show. We don't waive the minimum.",
+  },
+  {
+    q: "Can I upgrade to Authority later?",
+    a: "Yes. Mid-contract upgrade is available with 30 days notice and prorated for the remaining month.",
+  },
+  {
+    q: "Do I own the content?",
+    a: "Yes. All content, briefs, calendars, and editorial assets are client-owned on exit. No holdback.",
+  },
+];
+
+const jsonLd = [
+  breadcrumbSchema(siteUrl, [
+    { name: "Home", url: "/" },
+    { name: "Services", url: "/services/" },
+    { name: title, url },
+  ]),
+  serviceSchema({
+    siteUrl,
+    name: title,
+    description: summary,
+    url,
+    priceRange: "4500",
+  }),
+  faqSchema(faqs),
+];
+---
+
+<ProseLayout title={title} description={summary} jsonLd={jsonLd}>
+  <p class="meta"><a href="/services/">← All services</a></p>
+  <h1>{title}</h1>
+  <p class="lede">{summary}</p>
+
+  <table class="meta-table">
+    <tbody>
+      <tr><th>Format</th><td>Monthly retainer · 3-month minimum</td></tr>
+      <tr><th>Cadence</th><td>4 long-form articles per month</td></tr>
+      <tr><th>Price</th><td>$4,500/mo</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Right when</h2>
+  <p>
+    The client has a live site, wants consistent organic-traffic growth, and is
+    ready to publish regularly.
+  </p>
+
+  <h2>What you get (every month)</h2>
+  <ul>
+    <li>Four long-form articles (1,500–2,500 words) — keyword research, structured answer blocks, schema markup, internal linking</li>
+    <li>Rolling editorial calendar — updated each month with a 30-day lookahead</li>
+    <li>Internal-linking audit and fix sprint (up to 20 links/mo)</li>
+    <li>Monthly outcomes report: organic sessions, keyword movement, content ROI estimate</li>
+    <li>Slack/async channel with a named Wishfy strategist as your point of contact</li>
+  </ul>
+
+  <h2>Included quarterly</h2>
+  <p>
+    One technical content health check — thin-content flags, cannibalisation,
+    outdated-fact review.
+  </p>
+
+  <h2>What it does not include</h2>
+  <p>
+    GEO/LLM citation tracking, citable-asset production, link outreach, or build
+    work. Move up to Authority for the GEO layer, or add link outreach as an
+    add-on.
+  </p>
+
+  <h2>Frequently asked</h2>
+  {
+    faqs.map((f) => (
+      <>
+        <h3>{f.q}</h3>
+        <p>{f.a}</p>
+      </>
+    ))
+  }
+
+  <hr />
+  <p><Button href="/contact/?topic=growth">Talk to us about Growth</Button></p>
+</ProseLayout>
+
+<style>
+  .lede {
+    font-size: var(--text-lg);
+    color: var(--fg-muted);
+    margin-bottom: var(--space-6);
+  }
+  .meta-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 0 var(--space-6);
+  }
+  .meta-table th,
+  .meta-table td {
+    text-align: left;
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--border);
+  }
+  .meta-table th {
+    color: var(--fg-subtle);
+    font-weight: 600;
+    width: 8rem;
+    font-size: var(--text-sm);
+  }
+</style>

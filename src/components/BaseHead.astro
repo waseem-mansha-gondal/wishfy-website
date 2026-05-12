@@ -1,25 +1,29 @@
 ---
+import "../styles/tokens.css";
+import "../styles/base.css";
 import { SITE } from "../consts";
+import { organizationSchema, websiteSchema } from "../lib/schema";
 
 interface Props {
   title: string;
   description?: string;
   ogImage?: string;
+  jsonLd?: unknown[];
 }
 
-const { title, description = SITE.description, ogImage = "/og-default.png" } =
-  Astro.props;
+const {
+  title,
+  description = SITE.description,
+  ogImage = "/og-default.png",
+  jsonLd = [],
+} = Astro.props;
 
-const canonical = new URL(Astro.url.pathname, Astro.site).toString();
-const ogImageUrl = new URL(ogImage, Astro.site).toString();
-const cfToken = import.meta.env.PUBLIC_CF_ANALYTICS_TOKEN;
+const siteUrl = Astro.site ?? new URL("https://wishfy.ai");
+const canonical = new URL(Astro.url.pathname, siteUrl).toString();
+const ogImageUrl = new URL(ogImage, siteUrl).toString();
 
-const organizationJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  name: SITE.organization,
-  url: Astro.site?.toString(),
-};
+const sitewideJsonLd = [organizationSchema(siteUrl), websiteSchema(siteUrl)];
+const allJsonLd = [...sitewideJsonLd, ...jsonLd];
 ---
 
 <meta charset="utf-8" />
@@ -31,8 +35,8 @@ const organizationJsonLd = {
 <meta name="description" content={description} />
 <link rel="canonical" href={canonical} />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="sitemap" href="/sitemap-index.xml" />
 
-<!-- Open Graph -->
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content={SITE.name} />
 <meta property="og:title" content={title} />
@@ -41,23 +45,16 @@ const organizationJsonLd = {
 <meta property="og:image" content={ogImageUrl} />
 <meta property="og:locale" content={SITE.locale} />
 
-<!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={ogImageUrl} />
-{SITE.twitterHandle && <meta name="twitter:site" content={SITE.twitterHandle} />}
-
-<!-- JSON-LD: Organization -->
-<script type="application/ld+json" set:html={JSON.stringify(organizationJsonLd)} />
+{SITE.twitterHandle && (
+  <meta name="twitter:site" content={SITE.twitterHandle} />
+)}
 
 {
-  cfToken && (
-    <script
-      is:inline
-      defer
-      src="https://static.cloudflareinsights.com/beacon.min.js"
-      data-cf-beacon={`{"token": "${cfToken}"}`}
-    />
-  )
+  allJsonLd.map((node) => (
+    <script type="application/ld+json" set:html={JSON.stringify(node)} />
+  ))
 }

@@ -1,0 +1,115 @@
+---
+import ProseLayout from "../../layouts/ProseLayout.astro";
+import Button from "../../components/Button.astro";
+import { breadcrumbSchema, serviceSchema, faqSchema } from "../../lib/schema";
+
+const title = "Content Ignition";
+const summary =
+  "A six-week, fixed-fee content launch. Audit, editorial plan, four optimised articles, and a handoff session.";
+const url = "/services/content-ignition/";
+const siteUrl = Astro.site ?? new URL("https://wishfy.ai");
+
+const faqs = [
+  {
+    q: "When is Ignition the right choice?",
+    a: "When you have no content engine yet, or you're relaunching and need a foundation before committing to a retainer.",
+  },
+  {
+    q: "What's included in the audit?",
+    a: "Up to 50 URLs benchmarked against your top 3 competitors — gap analysis on topics, schema, internal linking, and on-page SEO.",
+  },
+  {
+    q: "What does Ignition not include?",
+    a: "Ongoing production, link building, GEO/AEO optimisation, or monthly reporting. Those live in our Growth and Authority retainers.",
+  },
+];
+
+const jsonLd = [
+  breadcrumbSchema(siteUrl, [
+    { name: "Home", url: "/" },
+    { name: "Services", url: "/services/" },
+    { name: title, url },
+  ]),
+  serviceSchema({
+    siteUrl,
+    name: title,
+    description: summary,
+    url,
+    priceRange: "6500",
+  }),
+  faqSchema(faqs),
+];
+---
+
+<ProseLayout title={title} description={summary} jsonLd={jsonLd}>
+  <p class="meta"><a href="/services/">← All services</a></p>
+  <h1>{title}</h1>
+  <p class="lede">{summary}</p>
+
+  <table class="meta-table">
+    <tbody>
+      <tr><th>Format</th><td>Fixed-fee project</td></tr>
+      <tr><th>Timeline</th><td>6 weeks</td></tr>
+      <tr><th>Price</th><td>$6,500</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Right when</h2>
+  <p>
+    The client has no content engine yet, or is relaunching and needs a
+    foundation before committing to a retainer.
+  </p>
+
+  <h2>What you get</h2>
+  <ul>
+    <li>Content audit of existing pages (up to 50 URLs) — gap analysis vs. top 3 competitors</li>
+    <li>12-week editorial calendar with keyword targets and intent mapping</li>
+    <li>Four long-form articles (1,500–2,000 words) — fully optimised: on-page, schema, internal links, structured answer blocks</li>
+    <li>Brief template library — five reusable templates matched to your content types</li>
+    <li>Handoff session (Loom + 60-minute live call): how to brief a writer to the Wishfy standard</li>
+  </ul>
+
+  <h2>What it does not include</h2>
+  <p>
+    Ongoing production, link building, GEO/AEO optimisation, or monthly
+    reporting. Those live in our Growth and Authority retainers.
+  </p>
+
+  <h2>Frequently asked</h2>
+  {
+    faqs.map((f) => (
+      <>
+        <h3>{f.q}</h3>
+        <p>{f.a}</p>
+      </>
+    ))
+  }
+
+  <hr />
+  <p><Button href="/contact/?topic=ignition">Talk to us about Ignition</Button></p>
+</ProseLayout>
+
+<style>
+  .lede {
+    font-size: var(--text-lg);
+    color: var(--fg-muted);
+    margin-bottom: var(--space-6);
+  }
+  .meta-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 0 var(--space-6);
+  }
+  .meta-table th,
+  .meta-table td {
+    text-align: left;
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--border);
+  }
+  .meta-table th {
+    color: var(--fg-subtle);
+    font-weight: 600;
+    width: 8rem;
+    font-size: var(--text-sm);
+  }
+</style>

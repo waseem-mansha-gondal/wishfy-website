@@ -1,0 +1,109 @@
+/* Wishfy brand tokens (excerpt for v1 internal marketing site).
+ * Values mirror brand/Brand-Tokens.json. Hand-curated minimal subset for WIS-8;
+ * the full token pipeline is owned by WIS-13.
+ */
+:root {
+  color-scheme: light dark;
+
+  /* Core palette */
+  --color-black: #000000;
+  --color-white: #ffffff;
+  --color-blue-300: #5b5bff;
+  --color-blue-700: #2323fe;
+  --color-blue-900: #1010a8;
+  --color-navy-900: #1b2a4a;
+  --color-coral-500: #ff6d4e;
+  --color-coral-700: #e8540a;
+  --color-green-300: #09e549;
+  --color-grey-50: #f7f7f8;
+  --color-grey-100: #eeeef1;
+  --color-grey-300: #c8c8d0;
+  --color-grey-500: #8a8a96;
+  --color-grey-700: #4a4a55;
+  --color-grey-900: #1a1a22;
+
+  /* Semantic (light) */
+  --bg: var(--color-white);
+  --bg-muted: var(--color-grey-50);
+  --fg: var(--color-grey-900);
+  --fg-muted: var(--color-grey-700);
+  --fg-subtle: var(--color-grey-500);
+  --border: var(--color-grey-100);
+  --link: var(--color-blue-700);
+  --accent: var(--color-blue-700);
+  --focus-ring: var(--color-blue-700);
+  --whatsapp: #25d366;
+
+  /* Sparkle gradient — the brand's one-per-page hero accent */
+  --gradient-sparkle: linear-gradient(
+    180deg,
+    #5bc5c5 0%,
+    #b69bff 28%,
+    #ff6d4e 55%,
+    #6161fe 100%
+  );
+
+  /* Type scale */
+  --font-display:
+    "Mona Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, sans-serif;
+  --font-body:
+    "Mona Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, sans-serif;
+  --font-mono:
+    "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  --text-xs: 0.8125rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 2rem;
+  --text-4xl: 2.5rem;
+  --text-display: clamp(2.5rem, 5vw + 1rem, 5rem);
+
+  /* Spacing */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
+
+  /* Radius */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 1rem;
+  --radius-pill: 999px;
+
+  /* Motion */
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: var(--color-black);
+    --bg-muted: var(--color-grey-900);
+    --fg: var(--color-white);
+    --fg-muted: var(--color-grey-300);
+    --fg-subtle: var(--color-grey-500);
+    --border: var(--color-grey-700);
+    --link: var(--color-blue-300);
+    --accent: var(--color-blue-300);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,30 @@
+---
+interface Props {
+  tone?: "default" | "muted" | "inverted";
+  as?: string;
+}
+const { tone = "default", as = "section" } = Astro.props;
+const Tag = as as keyof HTMLElementTagNameMap;
+---
+
+<Tag class:list={["section", tone]}>
+  <slot />
+</Tag>
+
+<style>
+  .section {
+    padding: var(--space-8) 0;
+  }
+  .section.muted {
+    background: var(--bg-muted);
+  }
+  .section.inverted {
+    background: var(--color-grey-900);
+    color: var(--color-white);
+  }
+  @media (max-width: 640px) {
+    .section {
+      padding: var(--space-7) 0;
+    }
+  }
+</style>

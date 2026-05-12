@@ -1,0 +1,201 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Container from "../../components/Container.astro";
+import Section from "../../components/Section.astro";
+import Hero from "../../components/Hero.astro";
+import Button from "../../components/Button.astro";
+import { breadcrumbSchema } from "../../lib/schema";
+
+const services = [
+  {
+    slug: "content-ignition",
+    title: "Content Ignition",
+    tag: "One-off launch · 6 weeks · $6,500",
+    summary:
+      "The foundation a content engine needs before it commits to a retainer.",
+    highlights: [
+      "Audit of existing pages (up to 50 URLs) vs. top 3 competitors",
+      "12-week editorial calendar with keyword + intent mapping",
+      "Four optimised long-form articles (1,500–2,000 words)",
+      "Brief template library and a live handoff session",
+    ],
+  },
+  {
+    slug: "content-growth",
+    title: "Content Growth",
+    tag: "Retainer · 3-month min · $4,500/mo",
+    summary:
+      "Consistent organic-search growth for teams ready to publish regularly.",
+    highlights: [
+      "Four long-form articles per month with schema and internal links",
+      "Rolling 30-day editorial calendar, refreshed every month",
+      "Internal-linking audit and fix sprint (up to 20 links/mo)",
+      "Monthly outcomes report with sessions, keyword movement, and ROI",
+    ],
+  },
+  {
+    slug: "content-authority",
+    title: "Content Authority",
+    tag: "Retainer · 6-month min · $8,500/mo",
+    summary:
+      "Earn citations in ChatGPT, Claude, Perplexity, and Gemini — not just clicks.",
+    highlights: [
+      "Eight articles plus two citable assets every month",
+      "GEO layer: schema deepening, llms.txt, ai.txt maintained",
+      "Monthly LLM citation audit across 25 tracked prompts",
+      "Author authority program and quarterly strategy session",
+    ],
+  },
+];
+
+const siteUrl = Astro.site ?? new URL("https://wishfy.ai");
+const jsonLd = [
+  breadcrumbSchema(siteUrl, [
+    { name: "Home", url: "/" },
+    { name: "Services", url: "/services/" },
+  ]),
+];
+---
+
+<BaseLayout
+  title="Services"
+  description="Three productized content service packages: Ignition, Growth, and Authority. Explicit deliverables, honest prices."
+  jsonLd={jsonLd}
+>
+  <Section>
+    <Container>
+      <Hero
+        eyebrow="Services"
+        title="Three packages. No bespoke scoping."
+        lede="We picked three productized packages so quoting a prospect doesn't require a custom proposal every time. Pick the one that fits and we'll scope down if you need less."
+      >
+        <Button href="/contact/">Talk to us about scope →</Button>
+      </Hero>
+    </Container>
+  </Section>
+
+  <Section tone="muted">
+    <Container>
+      <ul class="service-list">
+        {
+          services.map((s) => (
+            <li>
+              <a href={`/services/${s.slug}/`}>
+                <div>
+                  <p class="tag">{s.tag}</p>
+                  <h2>{s.title}</h2>
+                  <p>{s.summary}</p>
+                  <ul class="highlights">
+                    {s.highlights.map((h) => (
+                      <li>{h}</li>
+                    ))}
+                  </ul>
+                  <p class="more">Read more →</p>
+                </div>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </Container>
+  </Section>
+
+  <Section>
+    <Container>
+      <div class="addons">
+        <h2>Add-ons</h2>
+        <p class="muted">Quoted on top of any package, never bundled by default.</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Add-on</th>
+              <th>Indicative range</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Link outreach (10 targets/mo)</td><td>+$1,500/mo</td></tr>
+            <tr><td>Social adaptation (5 posts per article)</td><td>+$800/mo</td></tr>
+            <tr><td>Video script from article</td><td>+$300/article</td></tr>
+            <tr><td>Content translation (EN → NL/DE/FR)</td><td>+$400/article/language</td></tr>
+            <tr><td>Extra article beyond tier</td><td>$650/article</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </Container>
+  </Section>
+</BaseLayout>
+
+<style>
+  .service-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-5);
+  }
+  .service-list a {
+    display: block;
+    padding: var(--space-6);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    color: inherit;
+    transition: border-color var(--duration-fast) var(--ease-out);
+  }
+  .service-list a:hover {
+    border-color: var(--accent);
+  }
+  .service-list h2 {
+    margin: 0 0 var(--space-2);
+  }
+  .tag {
+    color: var(--accent);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin: 0 0 var(--space-2);
+  }
+  .service-list p {
+    color: var(--fg-muted);
+    margin: 0 0 var(--space-3);
+  }
+  .highlights {
+    margin: 0 0 var(--space-3);
+    padding-left: 1rem;
+    color: var(--fg-muted);
+  }
+  .highlights li {
+    margin-bottom: var(--space-1);
+  }
+  .more {
+    color: var(--link);
+    font-weight: 600;
+  }
+  .addons h2 {
+    margin: 0 0 var(--space-3);
+  }
+  .addons .muted {
+    color: var(--fg-muted);
+    margin: 0 0 var(--space-5);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--text-sm);
+  }
+  th,
+  td {
+    text-align: left;
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--border);
+  }
+  th {
+    color: var(--fg-subtle);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: var(--text-xs);
+  }
+</style>

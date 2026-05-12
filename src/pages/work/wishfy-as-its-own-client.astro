@@ -1,0 +1,90 @@
+---
+import ProseLayout from "../../layouts/ProseLayout.astro";
+import Button from "../../components/Button.astro";
+import { breadcrumbSchema } from "../../lib/schema";
+
+const title = "Wishfy as its own client";
+const summary =
+  "Building wishfy.ai in public — every schema, GEO experiment, and visibility audit on the site you're reading.";
+const url = "/work/wishfy-as-its-own-client/";
+const siteUrl = Astro.site ?? new URL("https://wishfy.ai");
+
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: title,
+  description: summary,
+  url: new URL(url, siteUrl).toString(),
+  author: {
+    "@type": "Organization",
+    "@id": new URL("/#organization", siteUrl).toString(),
+  },
+  publisher: { "@id": new URL("/#organization", siteUrl).toString() },
+  datePublished: "2026-05-12",
+  inLanguage: "en",
+};
+
+const jsonLd = [
+  breadcrumbSchema(siteUrl, [
+    { name: "Home", url: "/" },
+    { name: "Work", url: "/work/" },
+    { name: title, url },
+  ]),
+  articleSchema,
+];
+---
+
+<ProseLayout title={title} description={summary} jsonLd={jsonLd}>
+  <p class="meta"><a href="/work/">← All work</a></p>
+  <h1>{title}</h1>
+  <p class="lede">{summary}</p>
+
+  <p class="status">Status: in progress — first formal write-up at 90 days.</p>
+
+  <h2>The setup</h2>
+  <p>
+    Wishfy is a new-ish brand selling AI-native search visibility. The most
+    honest first case study is the one we owe ourselves: build the marketing
+    site to the standard we'd bill a client for, and document the result.
+  </p>
+
+  <h2>What we're testing</h2>
+  <ul>
+    <li><strong>GEO experiments</strong> — schema deepening, llms.txt configuration, citable-asset publishing — measured against citation movement in ChatGPT, Claude, Perplexity, and Gemini.</li>
+    <li><strong>AEO coverage</strong> — featured-snippet and "People Also Ask" capture on terms like "GEO consultancy" and "AI search visibility."</li>
+    <li><strong>Performance budget</strong> — Lighthouse ≥ 98 across categories, sub-1.8s LCP on mobile.</li>
+    <li><strong>Multilingual reach</strong> — EN now, NL/DE/FR rolling out as part of the broader v1 program.</li>
+  </ul>
+
+  <h2>What we'll publish here</h2>
+  <p>
+    A short, honest scorecard at 30, 60, and 90 days. Citation movement, Core
+    Web Vitals, contact-funnel stats, and the experiments that didn't work. No
+    vanity charts.
+  </p>
+
+  <h2>Methodology</h2>
+  <p>
+    Every recommendation we'd give a client, we apply to ourselves first.
+    Every schema block on this site is the same block we'd ship for you. The
+    code in this repository is the same template we'd use to build your site.
+  </p>
+
+  <hr />
+  <p>
+    <Button href="/contact/?topic=audit">Run the same on your site →</Button>
+  </p>
+</ProseLayout>
+
+<style>
+  .lede {
+    font-size: var(--text-lg);
+    color: var(--fg-muted);
+    margin-bottom: var(--space-4);
+  }
+  .status {
+    color: var(--fg-subtle);
+    font-size: var(--text-sm);
+    margin-bottom: var(--space-6);
+  }
+</style>

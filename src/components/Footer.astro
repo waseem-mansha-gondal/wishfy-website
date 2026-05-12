@@ -1,0 +1,122 @@
+---
+import { FOOTER_GROUPS, SITE } from "../consts";
+const year = new Date().getFullYear();
+const wa = `https://wa.me/${SITE.whatsappNumber}`;
+---
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="brand-block">
+      <a href="/" class="brand" aria-label={`${SITE.name} home`}>
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span class="brand-name">{SITE.name}</span>
+      </a>
+      <p class="tagline">{SITE.tagline}</p>
+      <p class="contact">
+        <a href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a><br />
+        <a href={wa} rel="noopener" target="_blank">WhatsApp →</a>
+      </p>
+    </div>
+    {
+      FOOTER_GROUPS.map((group) => (
+        <div class="group">
+          <h2>{group.title}</h2>
+          <ul>
+            {group.links.map((l) => (
+              <li>
+                <a href={l.href}>{l.label}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))
+    }
+  </div>
+  <div class="legal">
+    <p>© {year} {SITE.organization}. All rights reserved.</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--border);
+    background: var(--bg-muted);
+    padding: var(--space-8) var(--space-5) var(--space-6);
+    margin-top: var(--space-9);
+  }
+  .footer-inner {
+    max-width: 72rem;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.5fr repeat(3, 1fr);
+    gap: var(--space-6);
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    text-decoration: none;
+    color: var(--fg);
+    font-weight: 700;
+    font-size: var(--text-lg);
+    font-family: var(--font-display);
+  }
+  .brand-mark {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 999px;
+    background: var(--gradient-sparkle);
+    display: inline-block;
+  }
+  .tagline {
+    color: var(--fg-muted);
+    font-size: var(--text-sm);
+    margin: var(--space-3) 0 var(--space-4);
+    max-width: 22rem;
+  }
+  .contact {
+    font-size: var(--text-sm);
+    margin: 0;
+  }
+  .group h2 {
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--fg-subtle);
+    margin: 0 0 var(--space-3);
+  }
+  .group ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: var(--space-2);
+  }
+  .group a {
+    color: var(--fg);
+    text-decoration: none;
+    font-size: var(--text-sm);
+  }
+  .group a:hover {
+    color: var(--accent);
+  }
+  .legal {
+    max-width: 72rem;
+    margin: var(--space-6) auto 0;
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--border);
+    color: var(--fg-subtle);
+    font-size: var(--text-xs);
+  }
+  .legal p {
+    margin: 0;
+  }
+  @media (max-width: 640px) {
+    .footer-inner {
+      grid-template-columns: 1fr 1fr;
+    }
+    .brand-block {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

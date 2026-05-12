@@ -1,0 +1,118 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Container from "../../components/Container.astro";
+import Section from "../../components/Section.astro";
+import Hero from "../../components/Hero.astro";
+import Button from "../../components/Button.astro";
+import { breadcrumbSchema } from "../../lib/schema";
+
+const cases = [
+  {
+    slug: "wishfy-as-its-own-client",
+    title: "Wishfy as its own client",
+    client: "Wishfy",
+    summary:
+      "We're building wishfy.ai in public — the schema, the GEO experiments, the visibility audit, all on the same site you're reading. The first case study is the team eating its own cooking.",
+    status: "in-progress",
+  },
+];
+
+const siteUrl = Astro.site ?? new URL("https://wishfy.ai");
+const jsonLd = [
+  breadcrumbSchema(siteUrl, [
+    { name: "Home", url: "/" },
+    { name: "Work", url: "/work/" },
+  ]),
+];
+---
+
+<BaseLayout
+  title="Work"
+  description="Wishfy case studies — outcomes and method, not vanity metrics."
+  jsonLd={jsonLd}
+>
+  <Section>
+    <Container>
+      <Hero
+        eyebrow="Work"
+        title="Outcomes, not vanity metrics."
+        lede="We publish case studies that show real revenue lift and citation movement. Until a client gives us permission to publish theirs, we're documenting our own."
+      >
+        <Button href="/contact/">Become a case study →</Button>
+      </Hero>
+    </Container>
+  </Section>
+
+  <Section tone="muted">
+    <Container>
+      <ul class="case-list">
+        {
+          cases.map((c) => (
+            <li>
+              <a href={`/work/${c.slug}/`}>
+                <p class="kicker">{c.client}</p>
+                <h2>{c.title}</h2>
+                <p>{c.summary}</p>
+                <p class="status">{c.status === "in-progress" ? "In progress" : "Published"}</p>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="note">
+        More case studies will land here as engagements wrap. Until then,
+        wishfy.ai itself is the proof — every page on this site is built and
+        scored the way we build for clients.
+      </p>
+    </Container>
+  </Section>
+</BaseLayout>
+
+<style>
+  .case-list {
+    list-style: none;
+    margin: 0 0 var(--space-6);
+    padding: 0;
+    display: grid;
+    gap: var(--space-5);
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  }
+  .case-list a {
+    display: block;
+    padding: var(--space-6);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    color: inherit;
+    transition: border-color var(--duration-fast) var(--ease-out);
+  }
+  .case-list a:hover {
+    border-color: var(--accent);
+  }
+  .kicker {
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: var(--text-xs);
+    color: var(--accent);
+    margin: 0 0 var(--space-2);
+    font-weight: 600;
+  }
+  .case-list h2 {
+    margin: 0 0 var(--space-3);
+  }
+  .case-list p {
+    color: var(--fg-muted);
+    margin: 0 0 var(--space-3);
+  }
+  .status {
+    color: var(--fg-subtle);
+    font-size: var(--text-sm);
+    margin: 0;
+  }
+  .note {
+    color: var(--fg-muted);
+    font-size: var(--text-sm);
+    max-width: 36rem;
+  }
+</style>

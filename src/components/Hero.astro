@@ -1,0 +1,74 @@
+---
+interface Props {
+  eyebrow?: string;
+  title: string;
+  lede?: string;
+}
+const { eyebrow, title, lede } = Astro.props;
+---
+
+<div class="hero">
+  <div class="sparkle" aria-hidden="true"></div>
+  <div class="hero-text">
+    {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+    <h1>{title}</h1>
+    {lede && <p class="lede">{lede}</p>}
+    <div class="actions"><slot /></div>
+  </div>
+</div>
+
+<style>
+  .hero {
+    position: relative;
+    padding: var(--space-8) 0 var(--space-7);
+    isolation: isolate;
+  }
+  .hero-text {
+    max-width: 56rem;
+    position: relative;
+    z-index: 1;
+  }
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    margin: 0 0 var(--space-4);
+  }
+  h1 {
+    margin: 0 0 var(--space-5);
+  }
+  .lede {
+    font-size: var(--text-xl);
+    line-height: 1.45;
+    color: var(--fg-muted);
+    margin: 0 0 var(--space-6);
+    max-width: 44rem;
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+  .sparkle {
+    position: absolute;
+    top: -10%;
+    right: -10%;
+    width: 28rem;
+    height: 28rem;
+    border-radius: 50%;
+    background: var(--gradient-sparkle);
+    filter: blur(80px);
+    opacity: 0.28;
+    z-index: 0;
+    pointer-events: none;
+  }
+  @media (max-width: 720px) {
+    .sparkle {
+      width: 18rem;
+      height: 18rem;
+      opacity: 0.22;
+    }
+  }
+</style>

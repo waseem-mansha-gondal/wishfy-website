@@ -1,0 +1,96 @@
+---
+import ProseLayout from "../layouts/ProseLayout.astro";
+import { breadcrumbSchema } from "../lib/schema";
+import { SITE } from "../consts";
+
+const siteUrl = Astro.site ?? new URL("https://wishfy.ai");
+const url = "/about/";
+
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Waseem Mansha",
+  jobTitle: "Founder",
+  worksFor: { "@id": new URL("/#organization", siteUrl).toString() },
+  url: new URL(url, siteUrl).toString(),
+};
+
+const jsonLd = [
+  breadcrumbSchema(siteUrl, [
+    { name: "Home", url: "/" },
+    { name: "About", url },
+  ]),
+  personSchema,
+];
+---
+
+<ProseLayout
+  title="About"
+  description="Wishfy is an AI-native search visibility consultancy. We make businesses the obvious answer in Google, ChatGPT, Claude, and Perplexity."
+  jsonLd={jsonLd}
+>
+  <h1>About {SITE.name}</h1>
+
+  <p class="lede">
+    Wishfy is an AI-native search visibility consultancy and product studio. We
+    help businesses get found, get cited, and get chosen — across every kind
+    of search that matters today.
+  </p>
+
+  <h2>What we do</h2>
+  <ul>
+    <li><strong>SEO</strong> — Google, Bing, and traditional organic search</li>
+    <li><strong>GEO</strong> — Generative Engine Optimization for ChatGPT, Claude, Gemini, and Perplexity</li>
+    <li><strong>AEO</strong> — Answer Engine Optimization for featured snippets, "People Also Ask", and voice</li>
+    <li><strong>Build services</strong> — when strategy isn't enough, we ship the website, content, schema, and code</li>
+  </ul>
+  <p>
+    We are not a "rankings vendor." We are the team that makes a business <em>the
+    obvious answer</em> when its customers ask anyone — human or machine — for a
+    recommendation.
+  </p>
+
+  <h2>Why we exist</h2>
+  <p>
+    The search landscape has fractured. A brand can no longer rank #1 on Google
+    and call it a day. Customers ask ChatGPT. They ask Claude. They ask
+    Perplexity. They ask Siri. They scroll TikTok search. Each surface has its
+    own grammar, and most agencies are still pretending it's 2018.
+  </p>
+  <p>Wishfy is built for what search actually is in 2026.</p>
+
+  <h2>How we work</h2>
+  <ol>
+    <li><strong>Discovery call (30 min, free).</strong> We learn the business, the goals, the timeline, and the budget tier.</li>
+    <li><strong>Written proposal in one business day.</strong> Scope, deliverables, price band, and a kickoff date.</li>
+    <li><strong>Visible work.</strong> You see the Paperclip board filtered to your project — no black-box retainers.</li>
+    <li><strong>30-day check-ins.</strong> Even on retainers. We say what worked, what didn't, and what's next.</li>
+    <li><strong>Exit-friendly.</strong> You own your content, your schema, your site, your data. We never hold artifacts hostage.</li>
+  </ol>
+
+  <h2>What we believe</h2>
+  <ul>
+    <li><strong>Specificity over generality.</strong> Every recommendation must be actionable in under a week.</li>
+    <li><strong>Honesty over optimism.</strong> If something will take 90 days, we say 90 days. We don't sell hope.</li>
+    <li><strong>Show the work.</strong> Every claim cites a source. Every output is reproducible.</li>
+    <li><strong>Outcomes over outputs.</strong> "Twelve blog posts" isn't a deliverable. "Twelve posts that earned four featured snippets and two LLM citations" is.</li>
+    <li><strong>AI-augmented, human-accountable.</strong> Agents draft. Humans approve. Waseem signs off on anything that touches a client's brand voice or a public commitment.</li>
+  </ul>
+
+  <h2>The founder</h2>
+  <p>
+    <strong>Waseem Mansha</strong> founded Wishfy after watching businesses pour
+    budget into agencies that optimized for the wrong decade. He works directly
+    on every engagement until it's stable, then hands it to the team — never the
+    reverse. Reach him at
+    <a href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a>.
+  </p>
+</ProseLayout>
+
+<style>
+  .lede {
+    font-size: var(--text-lg);
+    color: var(--fg-muted);
+    margin-bottom: var(--space-6);
+  }
+</style>
