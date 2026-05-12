@@ -1,0 +1,79 @@
+---
+import { getCollection } from "astro:content";
+import ProseLayout from "../../layouts/ProseLayout.astro";
+import { breadcrumbSchema, articleSchema } from "../../lib/schema";
+import { formatDate } from "../../lib/format";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("blog", ({ data }) => !data.draft);
+  return entries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+const siteUrl = Astro.site ?? new URL("https://hello-client.pages.dev");
+const url = `/blog/${entry.slug}/`;
+
+const jsonLd = [
+  breadcrumbSchema(siteUrl, [
+    { name: "Home", url: "/" },
+    { name: "Blog", url: "/blog/" },
+    { name: entry.data.title, url },
+  ]),
+  articleSchema({
+    siteUrl,
+    url,
+    title: entry.data.title,
+    description: entry.data.description,
+    datePublished: entry.data.pubDate,
+    dateModified: entry.data.updatedDate,
+    author: entry.data.author,
+  }),
+];
+---
+
+<ProseLayout
+  title={entry.data.title}
+  description={entry.data.description}
+  ogType="article"
+  jsonLd={jsonLd}
+>
+  <p class="meta">
+    <a href="/blog/">← All posts</a>
+  </p>
+  <h1>{entry.data.title}</h1>
+  <p class="meta">
+    By {entry.data.author} ·
+    <time datetime={entry.data.pubDate.toISOString()}>
+      {formatDate(entry.data.pubDate)}
+    </time>
+    {entry.data.updatedDate && (
+      <>
+        {" "}
+        · Updated{" "}
+        <time datetime={entry.data.updatedDate.toISOString()}>
+          {formatDate(entry.data.updatedDate)}
+        </time>
+      </>
+    )}
+  </p>
+  <Content />
+  {
+    entry.data.tags.length > 0 && (
+      <p class="tags">
+        Tags: <span>{entry.data.tags.join(", ")}</span>
+      </p>
+    )
+  }
+</ProseLayout>
+
+<style>
+  .tags {
+    margin-top: var(--space-8);
+    color: var(--color-fg-subtle);
+    font-size: var(--text-sm);
+  }
+</style>

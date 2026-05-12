@@ -1,0 +1,58 @@
+---
+import { getCollection } from "astro:content";
+import ProseLayout from "../../layouts/ProseLayout.astro";
+import Button from "../../components/Button.astro";
+import { breadcrumbSchema, serviceSchema } from "../../lib/schema";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("services", ({ data }) => !data.draft);
+  return entries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+const siteUrl = Astro.site ?? new URL("https://hello-client.pages.dev");
+const url = `/services/${entry.slug}/`;
+
+const jsonLd = [
+  breadcrumbSchema(siteUrl, [
+    { name: "Home", url: "/" },
+    { name: "Services", url: "/services/" },
+    { name: entry.data.title, url },
+  ]),
+  serviceSchema({
+    siteUrl,
+    name: entry.data.title,
+    description: entry.data.summary,
+    url,
+  }),
+];
+---
+
+<ProseLayout
+  title={entry.data.title}
+  description={entry.data.summary}
+  jsonLd={jsonLd}
+>
+  <p class="meta">
+    <a href="/services/">← All services</a>
+  </p>
+  <h1>{entry.data.title}</h1>
+  <p class="lede">{entry.data.summary}</p>
+  <Content />
+  <hr />
+  <p>
+    <Button href="/contact/">Talk to us about this</Button>
+  </p>
+</ProseLayout>
+
+<style>
+  .lede {
+    font-size: var(--text-lg);
+    color: var(--color-fg-muted);
+    margin-bottom: var(--space-6);
+  }
+</style>

@@ -1,0 +1,49 @@
+---
+import ProseLayout from "../layouts/ProseLayout.astro";
+import { breadcrumbSchema } from "../lib/schema";
+import { SITE } from "../consts";
+
+const siteUrl = Astro.site ?? new URL("https://hello-client.pages.dev");
+const jsonLd = [
+  breadcrumbSchema(siteUrl, [
+    { name: "Home", url: "/" },
+    { name: "About", url: "/about/" },
+  ]),
+];
+---
+
+<ProseLayout
+  title="About"
+  description={`About ${SITE.name} — what we do and why.`}
+  jsonLd={jsonLd}
+>
+  <h1>About {SITE.name}</h1>
+  <p class="meta">Replace this page with the client's story.</p>
+
+  <p>
+    {SITE.name} builds and ships content-led marketing sites that load fast,
+    rank well, and stay easy to maintain after launch.
+  </p>
+
+  <h2>How we work</h2>
+  <p>
+    Every engagement starts with a one-week discovery: information
+    architecture, content audit, and brand tokens. From there we work in
+    weekly checkpoints, deploying preview URLs daily and shipping the live
+    site as soon as the first page meets the quality bar.
+  </p>
+
+  <h2>What we believe</h2>
+  <ul>
+    <li>Speed is a feature. Pages should be interactive in under one second.</li>
+    <li>Accessibility is non-negotiable, not a phase-two concern.</li>
+    <li>Marketing teams should publish without filing a ticket.</li>
+    <li>Boring tools beat clever ones when you have to maintain a site for years.</li>
+  </ul>
+
+  <h2>Get in touch</h2>
+  <p>
+    Email <a href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a> or
+    <a href="/contact/">use the contact page</a>.
+  </p>
+</ProseLayout>

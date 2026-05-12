@@ -1,0 +1,47 @@
+---
+/**
+ * Hero — homepage / section-leader title block. Slot in any CTA block.
+ */
+interface Props {
+  eyebrow?: string;
+  title: string;
+  lede?: string;
+}
+
+const { eyebrow, title, lede } = Astro.props;
+---
+
+<div class="hero">
+  {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+  <h1>{title}</h1>
+  {lede && <p class="lede">{lede}</p>}
+  <div class="cta"><slot /></div>
+</div>
+
+<style>
+  .hero {
+    text-align: left;
+    max-width: 52rem;
+  }
+  .eyebrow {
+    font-size: var(--text-sm);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: var(--space-3);
+  }
+  .lede {
+    font-size: var(--text-lg);
+    color: var(--color-fg-muted);
+    max-width: 42rem;
+  }
+  .cta {
+    margin-top: var(--space-5);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+  .cta:empty {
+    display: none;
+  }
+</style>

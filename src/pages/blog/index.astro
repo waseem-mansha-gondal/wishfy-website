@@ -1,0 +1,100 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Container from "../../components/Container.astro";
+import Section from "../../components/Section.astro";
+import Hero from "../../components/Hero.astro";
+import { breadcrumbSchema } from "../../lib/schema";
+import { formatDate } from "../../lib/format";
+
+const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
+  (a, b) => +b.data.pubDate - +a.data.pubDate,
+);
+
+const siteUrl = Astro.site ?? new URL("https://hello-client.pages.dev");
+const jsonLd = [
+  breadcrumbSchema(siteUrl, [
+    { name: "Home", url: "/" },
+    { name: "Blog", url: "/blog/" },
+  ]),
+];
+---
+
+<BaseLayout
+  title="Blog"
+  description="Notes on shipping fast, content-led marketing sites."
+  jsonLd={jsonLd}
+>
+  <Section>
+    <Container>
+      <Hero
+        eyebrow="Blog"
+        title="Notes from the workshop"
+        lede="Short posts on shipping marketing sites, the workflow that gets us there, and what we measure once they're live."
+      />
+    </Container>
+  </Section>
+
+  <Section tone="muted">
+    <Container>
+      {posts.length === 0 ? (
+        <p>Nothing here yet. Check back soon.</p>
+      ) : (
+        <ul class="post-list">
+          {posts.map((p) => (
+            <li>
+              <a href={`/blog/${p.slug}/`}>
+                <h2>{p.data.title}</h2>
+                <p>{p.data.description}</p>
+                <p class="meta">
+                  <time datetime={p.data.pubDate.toISOString()}>
+                    {formatDate(p.data.pubDate)}
+                  </time>
+                  {p.data.tags.length > 0 && (
+                    <span> · {p.data.tags.join(", ")}</span>
+                  )}
+                </p>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </Container>
+  </Section>
+</BaseLayout>
+
+<style>
+  .post-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-5);
+  }
+  .post-list a {
+    display: block;
+    padding: var(--space-5);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    color: inherit;
+    text-decoration: none;
+    transition: border-color var(--duration-fast) var(--ease-out);
+  }
+  .post-list a:hover {
+    border-color: var(--color-accent);
+  }
+  .post-list h2 {
+    font-size: var(--text-xl);
+    margin-bottom: var(--space-2);
+  }
+  .post-list p {
+    color: var(--color-fg-muted);
+    margin: 0;
+  }
+  .meta {
+    color: var(--color-fg-subtle);
+    font-size: var(--text-sm);
+    margin-top: var(--space-3);
+  }
+</style>

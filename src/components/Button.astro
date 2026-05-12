@@ -1,0 +1,63 @@
+---
+/**
+ * Button — `<a>` styled as a button. Use `variant="primary"` for the
+ * main call-to-action and `variant="ghost"` for secondary actions.
+ */
+interface Props {
+  href: string;
+  variant?: "primary" | "ghost";
+  class?: string;
+}
+
+const { href, variant = "primary", class: cls = "" } = Astro.props;
+const external = /^https?:\/\//i.test(href);
+---
+
+<a
+  href={href}
+  class:list={["btn", `btn--${variant}`, cls]}
+  rel={external ? "noopener noreferrer" : undefined}
+  target={external ? "_blank" : undefined}
+>
+  <slot />
+</a>
+
+<style>
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: 0.7rem 1.25rem;
+    border-radius: var(--radius-pill);
+    font-weight: 600;
+    font-size: var(--text-sm);
+    text-decoration: none;
+    line-height: 1;
+    border: 1px solid transparent;
+    transition:
+      transform var(--duration-fast) var(--ease-out),
+      background var(--duration-fast) var(--ease-out),
+      color var(--duration-fast) var(--ease-out);
+  }
+  .btn:hover {
+    transform: translateY(-1px);
+    text-decoration: none;
+  }
+  .btn--primary {
+    background: var(--color-fg);
+    color: var(--color-bg);
+  }
+  .btn--primary:hover {
+    background: var(--color-link);
+    color: var(--color-bg);
+  }
+  .btn--ghost {
+    background: transparent;
+    color: var(--color-fg);
+    border-color: var(--color-border);
+  }
+  .btn--ghost:hover {
+    background: var(--color-surface-muted);
+  }
+</style>

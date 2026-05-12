@@ -1,0 +1,59 @@
+---
+/**
+ * ProseLayout — page shell for long-form content (blog posts, case studies,
+ * about, services detail). Wraps the slot in a narrower `prose` container
+ * and applies typographic defaults via `.prose`.
+ */
+import BaseLayout from "./BaseLayout.astro";
+import Container from "../components/Container.astro";
+
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+  ogType?: "website" | "article";
+  jsonLd?: Array<Record<string, unknown>>;
+  noindex?: boolean;
+}
+
+const props = Astro.props;
+---
+
+<BaseLayout {...props}>
+  <Container width="prose" as="article" class="prose">
+    <slot />
+  </Container>
+</BaseLayout>
+
+<style is:global>
+  .prose {
+    padding-block: var(--space-10);
+  }
+  .prose > h1:first-of-type {
+    margin-bottom: var(--space-3);
+  }
+  .prose h2 {
+    margin-top: var(--space-8);
+  }
+  .prose h3 {
+    margin-top: var(--space-6);
+  }
+  .prose figure,
+  .prose img {
+    margin-block: var(--space-5);
+    border-radius: var(--radius-md);
+  }
+  .prose ul,
+  .prose ol {
+    margin: 0 0 var(--space-4) 1.25rem;
+    padding: 0;
+  }
+  .prose li + li {
+    margin-top: var(--space-2);
+  }
+  .prose .meta {
+    color: var(--color-fg-subtle);
+    font-size: var(--text-sm);
+    margin-bottom: var(--space-6);
+  }
+</style>

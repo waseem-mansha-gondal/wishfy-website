@@ -1,0 +1,127 @@
+---
+import { getCollection } from "astro:content";
+import ProseLayout from "../../layouts/ProseLayout.astro";
+import Button from "../../components/Button.astro";
+import { breadcrumbSchema, articleSchema } from "../../lib/schema";
+import { formatDate } from "../../lib/format";
+
+export async function getStaticPaths() {
+  const entries = await getCollection(
+    "case-studies",
+    ({ data }) => !data.draft,
+  );
+  return entries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+const siteUrl = Astro.site ?? new URL("https://hello-client.pages.dev");
+const url = `/case-studies/${entry.slug}/`;
+
+const jsonLd = [
+  breadcrumbSchema(siteUrl, [
+    { name: "Home", url: "/" },
+    { name: "Case studies", url: "/case-studies/" },
+    { name: entry.data.title, url },
+  ]),
+  articleSchema({
+    siteUrl,
+    url,
+    title: entry.data.title,
+    description: entry.data.summary,
+    datePublished: entry.data.pubDate,
+  }),
+];
+---
+
+<ProseLayout
+  title={entry.data.title}
+  description={entry.data.summary}
+  ogType="article"
+  jsonLd={jsonLd}
+>
+  <p class="meta">
+    <a href="/case-studies/">← All case studies</a>
+  </p>
+  <p class="kicker">
+    {entry.data.client}
+    {entry.data.industry && <span> · {entry.data.industry}</span>}
+  </p>
+  <h1>{entry.data.title}</h1>
+  <p class="lede">{entry.data.summary}</p>
+
+  {
+    entry.data.metrics.length > 0 && (
+      <dl class="metrics">
+        {entry.data.metrics.map((m) => (
+          <div>
+            <dt>{m.label}</dt>
+            <dd>{m.value}</dd>
+          </div>
+        ))}
+      </dl>
+    )
+  }
+
+  <p class="meta">
+    Published <time datetime={entry.data.pubDate.toISOString()}>
+      {formatDate(entry.data.pubDate)}
+    </time>
+    {entry.data.services.length > 0 && (
+      <span> · {entry.data.services.join(", ")}</span>
+    )}
+  </p>
+
+  <Content />
+
+  {
+    entry.data.url && (
+      <p>
+        <Button href={entry.data.url} variant="ghost">
+          Visit the live site →
+        </Button>
+      </p>
+    )
+  }
+</ProseLayout>
+
+<style>
+  .kicker {
+    color: var(--color-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: var(--text-xs);
+    margin-bottom: var(--space-2);
+  }
+  .lede {
+    font-size: var(--text-lg);
+    color: var(--color-fg-muted);
+    margin-bottom: var(--space-5);
+  }
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+    gap: var(--space-4);
+    margin: 0 0 var(--space-6);
+    padding: var(--space-4);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+  }
+  .metrics dt {
+    color: var(--color-fg-subtle);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .metrics dd {
+    margin: 0;
+    font-size: var(--text-2xl);
+    color: var(--color-fg);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+</style>

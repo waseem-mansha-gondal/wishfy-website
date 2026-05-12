@@ -50,11 +50,12 @@ ship.
 
 ### What's deliberately NOT here
 
-- No CMS. Client engagements that need one bolt on Sanity, Contentful,
-  Decap, or markdown-in-repo depending on the client's workflow.
+- No headless CMS yet. The default authoring surface is Markdown/MDX in
+  `src/content/` (see [Content & CMS hooks](#content--cms-hooks) below) —
+  the Content Strategist can edit copy without engineering changes. If a
+  client wants a hosted CMS later we bolt on Sanity, Contentful, or Decap.
 - No A/B testing or feature flags.
 - No e-commerce.
-- No design system / component library yet. That's [WIS-7](../WIS-7).
 
 ---
 
@@ -111,16 +112,77 @@ In **your GitHub repo settings**:
 Push to `main` → workflow runs → site is live. Subsequent deploys are
 typically <1 minute.
 
-### 4. Per-client customization checklist
+### 4. Per-client customization checklist (fork → live in ≤ 1 hour)
 
-- [ ] Update `src/consts.ts` (`SITE.name`, `description`, `organization`,
-      `twitterHandle`).
+- [ ] Update `src/consts.ts`:
+      - `SITE` — name, tagline, description, organization, locale,
+        themeColor, twitterHandle, contactEmail.
+      - `NAV` — top nav items.
+      - `FOOTER_GROUPS` — footer link columns.
+- [ ] Re-skin tokens in `src/styles/tokens.css` if the client has a brand
+      palette (set `--color-accent`, `--font-sans`, etc. — every component
+      consumes tokens, no other CSS needs to change).
 - [ ] Replace `public/favicon.svg`.
 - [ ] Replace `public/og-default.png` with a 1200×630 OG card (currently
       not committed — add one for the client).
+- [ ] Swap seed content in `src/content/`:
+      - `services/*.md` — your client's offers.
+      - `blog/*.md(x)` — at least one launch post.
+      - `case-studies/*.md(x)` — proof points if available.
+- [ ] Update copy on `src/pages/about.astro` and `src/pages/contact.astro`.
 - [ ] Set `SITE_URL` GitHub variable to the client's canonical URL.
 - [ ] Add the client's custom domain in Cloudflare Pages → Custom domains.
 - [ ] Confirm `robots.txt` and `/sitemap-index.xml` resolve after deploy.
+
+---
+
+## Content & CMS hooks
+
+The template uses **Astro content collections** as its CMS surface — Markdown
+and MDX files in `src/content/`, validated against a Zod schema in
+`src/content/config.ts`. This is the lowest-friction CMS we can offer: the
+Content Strategist edits files in GitHub (or a local clone) and a push
+triggers a deploy. No external service, no API keys, no rate limits.
+
+Three collections are wired up:
+
+| Collection      | Path                        | Used by                                     |
+| --------------- | --------------------------- | ------------------------------------------- |
+| `services`      | `src/content/services/`     | `/services/`, `/services/[slug]/`, homepage |
+| `blog`          | `src/content/blog/`         | `/blog/`, `/blog/[slug]/`, homepage         |
+| `case-studies`  | `src/content/case-studies/` | `/case-studies/`, `/case-studies/[slug]/`, homepage |
+
+Each collection has typed frontmatter; the build fails fast if a required
+field is missing. The Content Strategist gets a quick-reference cheatsheet
+in **`src/content/README.md`** (frontmatter shape per collection, draft
+flag, ordering rules, tips).
+
+If a client later wants a hosted CMS, we can layer Sanity, Contentful, or
+Decap on top of the same collections without changing the page templates.
+
+---
+
+## Layout primitives
+
+These compose every page; everything else is content.
+
+| Component                          | Purpose                                                     |
+| ---------------------------------- | ----------------------------------------------------------- |
+| `layouts/BaseLayout.astro`         | HTML shell — head, skip-link, header, main, footer.         |
+| `layouts/ProseLayout.astro`        | BaseLayout + a constrained `.prose` article container.      |
+| `components/Container.astro`       | Width-constrained wrapper (`default` or `prose`).           |
+| `components/Section.astro`         | Vertical rhythm + optional tonal background.                |
+| `components/Header.astro`          | Sticky header with brand + `NAV` from `consts.ts`.          |
+| `components/Footer.astro`          | Brand + `FOOTER_GROUPS` columns + meta row.                 |
+| `components/Hero.astro`            | Eyebrow / title / lede + slot for CTA.                      |
+| `components/Button.astro`          | `primary` / `ghost`, auto-detects external links.           |
+| `components/BaseHead.astro`        | All `<head>` content — meta, OG, JSON-LD, analytics beacon. |
+| `lib/schema.ts`                    | JSON-LD generators (Organization, WebSite, Breadcrumb, Article, Service). |
+| `lib/format.ts`                    | `formatDate`, `isoDate` — locale-aware via `SITE.locale`.   |
+
+Tokens live in `src/styles/tokens.css`. Reset / base element styles in
+`src/styles/base.css`. Dark mode flips automatically via
+`prefers-color-scheme`.
 
 ---
 
@@ -129,15 +191,29 @@ typically <1 minute.
 ```
 .
 ├── .github/workflows/deploy.yml   # CI: build + deploy to Cloudflare Pages
-├── astro.config.mjs               # Astro config + @astrojs/sitemap
+├── astro.config.mjs               # Astro config + @astrojs/mdx + sitemap
 ├── public/                        # Static assets served as-is
 │   ├── favicon.svg
 │   └── robots.txt
 ├── src/
-│   ├── components/BaseHead.astro  # All SEO/meta/JSON-LD lives here
-│   ├── layouts/BaseLayout.astro   # Page shell + base styles
-│   ├── pages/index.astro          # Hello-client homepage
-│   ├── consts.ts                  # Per-client constants
+│   ├── components/                # Layout primitives (see table above)
+│   ├── content/                   # CMS surface — Markdown/MDX + schema
+│   │   ├── config.ts              # Zod schemas for each collection
+│   │   ├── README.md              # Content Strategist cheatsheet
+│   │   ├── blog/
+│   │   ├── case-studies/
+│   │   └── services/
+│   ├── layouts/                   # BaseLayout + ProseLayout
+│   ├── lib/                       # schema.ts, format.ts
+│   ├── pages/
+│   │   ├── index.astro            # Homepage
+│   │   ├── about.astro
+│   │   ├── contact.astro
+│   │   ├── blog/                  # Index + [...slug]
+│   │   ├── case-studies/          # Index + [...slug]
+│   │   └── services/              # Index + [...slug]
+│   ├── styles/                    # tokens.css, base.css
+│   ├── consts.ts                  # Per-client constants (NAV, FOOTER, SITE)
 │   └── env.d.ts
 ├── .env.example
 ├── .nvmrc

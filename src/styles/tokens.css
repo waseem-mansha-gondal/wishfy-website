@@ -1,0 +1,88 @@
+/*
+ * Brand tokens — the single place to re-skin a client site.
+ *
+ * Every color, font, radius and spacing value used by the template lives here
+ * as a CSS custom property. To re-skin a client engagement:
+ *   1. Edit the values below.
+ *   2. Optionally swap the `--font-*` stacks for a webfont in BaseHead.astro.
+ *
+ * Tokens are grouped by semantic purpose (surface / text / accent) so the same
+ * variable names hold across clients even when the values change.
+ */
+
+:root {
+  /* Palette --------------------------------------------------------------- */
+  --color-bg: #ffffff;
+  --color-surface: #f8fafc;
+  --color-surface-muted: #f1f5f9;
+  --color-border: #e2e8f0;
+  --color-fg: #0f172a;
+  --color-fg-muted: #475569;
+  --color-fg-subtle: #64748b;
+  --color-accent: #f59e0b;
+  --color-accent-fg: #1f2937;
+  --color-link: #b45309;
+
+  /* Typography ------------------------------------------------------------ */
+  --font-sans:
+    ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-mono:
+    ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+
+  --text-xs: 0.8125rem;
+  --text-sm: 0.9375rem;
+  --text-base: 1.0625rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.5rem;
+  --text-2xl: 2rem;
+  --text-3xl: clamp(2rem, 3vw + 1rem, 2.75rem);
+  --text-4xl: clamp(2.5rem, 4vw + 1rem, 3.75rem);
+
+  --leading-tight: 1.15;
+  --leading-snug: 1.35;
+  --leading-normal: 1.6;
+
+  /* Layout ---------------------------------------------------------------- */
+  --container-max: 72rem;
+  --prose-max: 42rem;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-8: 3rem;
+  --space-10: 4rem;
+  --space-12: 6rem;
+  --space-16: 8rem;
+
+  --radius-sm: 0.375rem;
+  --radius-md: 0.625rem;
+  --radius-lg: 1rem;
+  --radius-pill: 999px;
+
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 8px 24px rgba(15, 23, 42, 0.08);
+
+  --duration-fast: 120ms;
+  --duration-slow: 320ms;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #0b1220;
+    --color-surface: #111a2c;
+    --color-surface-muted: #182238;
+    --color-border: #1f2a44;
+    --color-fg: #f1f5f9;
+    --color-fg-muted: #cbd5e1;
+    --color-fg-subtle: #94a3b8;
+    --color-link: #fbbf24;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
+    --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.45);
+  }
+}

@@ -1,39 +1,53 @@
 ---
 import { SITE } from "../consts";
+import { organizationSchema, websiteSchema } from "../lib/schema";
 
 interface Props {
   title: string;
   description?: string;
   ogImage?: string;
+  ogType?: "website" | "article";
+  /**
+   * Extra JSON-LD entries injected as-is. Build with helpers from
+   * `src/lib/schema.ts` (e.g. `breadcrumbSchema`, `articleSchema`).
+   */
+  jsonLd?: Array<Record<string, unknown>>;
+  /** Mark the page as noindex (for drafts / utility pages). */
+  noindex?: boolean;
 }
 
-const { title, description = SITE.description, ogImage = "/og-default.png" } =
-  Astro.props;
+const {
+  title,
+  description = SITE.description,
+  ogImage = "/og-default.png",
+  ogType = "website",
+  jsonLd = [],
+  noindex = false,
+} = Astro.props;
 
-const canonical = new URL(Astro.url.pathname, Astro.site).toString();
-const ogImageUrl = new URL(ogImage, Astro.site).toString();
+const siteUrl = Astro.site ?? new URL("https://hello-client.pages.dev");
+const canonical = new URL(Astro.url.pathname, siteUrl).toString();
+const ogImageUrl = new URL(ogImage, siteUrl).toString();
 const cfToken = import.meta.env.PUBLIC_CF_ANALYTICS_TOKEN;
 
-const organizationJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  name: SITE.organization,
-  url: Astro.site?.toString(),
-};
+const baseJsonLd = [organizationSchema(siteUrl), websiteSchema(siteUrl)];
+const allJsonLd = [...baseJsonLd, ...jsonLd];
 ---
 
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <meta name="generator" content={Astro.generator} />
 <meta name="theme-color" content={SITE.themeColor} />
+{noindex && <meta name="robots" content="noindex,nofollow" />}
 
 <title>{title}</title>
 <meta name="description" content={description} />
 <link rel="canonical" href={canonical} />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="sitemap" href="/sitemap-index.xml" />
 
 <!-- Open Graph -->
-<meta property="og:type" content="website" />
+<meta property="og:type" content={ogType} />
 <meta property="og:site_name" content={SITE.name} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
@@ -48,8 +62,12 @@ const organizationJsonLd = {
 <meta name="twitter:image" content={ogImageUrl} />
 {SITE.twitterHandle && <meta name="twitter:site" content={SITE.twitterHandle} />}
 
-<!-- JSON-LD: Organization -->
-<script type="application/ld+json" set:html={JSON.stringify(organizationJsonLd)} />
+<!-- JSON-LD -->
+{
+  allJsonLd.map((entry) => (
+    <script type="application/ld+json" set:html={JSON.stringify(entry)} />
+  ))
+}
 
 {
   cfToken && (

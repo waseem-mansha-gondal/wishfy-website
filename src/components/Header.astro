@@ -1,0 +1,102 @@
+---
+import { SITE, NAV } from "../consts";
+import Container from "./Container.astro";
+
+const path = Astro.url.pathname.replace(/\/+$/, "/") || "/";
+const isActive = (href: string) => {
+  const normalized = href.replace(/\/+$/, "/") || "/";
+  if (normalized === "/") return path === "/";
+  return path === normalized || path.startsWith(normalized);
+};
+---
+
+<header class="site-header">
+  <Container>
+    <div class="bar">
+      <a class="brand" href="/" aria-label={`${SITE.name} home`}>
+        <span class="brand-mark" aria-hidden="true">✦</span>
+        <span class="brand-name">{SITE.name}</span>
+      </a>
+      <nav aria-label="Primary">
+        <ul class="nav">
+          {
+            NAV.map((item) => (
+              <li>
+                <a
+                  href={item.href}
+                  aria-current={isActive(item.href) ? "page" : undefined}
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+    </div>
+  </Container>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: color-mix(in srgb, var(--color-bg) 92%, transparent);
+    backdrop-filter: saturate(140%) blur(10px);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-5);
+    min-height: 4rem;
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: var(--color-fg);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .brand-mark {
+    color: var(--color-accent);
+    font-size: 1.25rem;
+  }
+  .nav {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: var(--space-5);
+    flex-wrap: wrap;
+  }
+  .nav a {
+    color: var(--color-fg-muted);
+    text-decoration: none;
+    font-size: var(--text-sm);
+    padding: 0.5rem 0;
+    border-bottom: 2px solid transparent;
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+  .nav a:hover {
+    color: var(--color-fg);
+  }
+  .nav a[aria-current="page"] {
+    color: var(--color-fg);
+    border-bottom-color: var(--color-accent);
+  }
+  @media (max-width: 640px) {
+    .bar {
+      flex-direction: column;
+      align-items: flex-start;
+      padding-block: var(--space-3);
+    }
+    .nav {
+      gap: var(--space-4);
+    }
+  }
+</style>

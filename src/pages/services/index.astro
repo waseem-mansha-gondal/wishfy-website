@@ -1,0 +1,113 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Container from "../../components/Container.astro";
+import Section from "../../components/Section.astro";
+import Hero from "../../components/Hero.astro";
+import { breadcrumbSchema } from "../../lib/schema";
+
+const services = (await getCollection("services", ({ data }) => !data.draft))
+  .sort((a, b) => a.data.order - b.data.order);
+
+const siteUrl = Astro.site ?? new URL("https://hello-client.pages.dev");
+const jsonLd = [
+  breadcrumbSchema(siteUrl, [
+    { name: "Home", url: "/" },
+    { name: "Services", url: "/services/" },
+  ]),
+];
+---
+
+<BaseLayout
+  title="Services"
+  description="The work we take on for clients."
+  jsonLd={jsonLd}
+>
+  <Section>
+    <Container>
+      <Hero
+        eyebrow="Services"
+        title="What we take on"
+        lede="Three focused engagements. Each one shippable in weeks, with a clear deliverable at the end."
+      />
+    </Container>
+  </Section>
+
+  <Section tone="muted">
+    <Container>
+      <ul class="service-list">
+        {
+          services.map((s) => (
+            <li>
+              <a href={`/services/${s.slug}/`}>
+                <span class="icon" aria-hidden="true">
+                  {s.data.icon ?? "→"}
+                </span>
+                <div>
+                  <h2>{s.data.title}</h2>
+                  <p>{s.data.summary}</p>
+                  {s.data.highlights.length > 0 && (
+                    <ul class="highlights">
+                      {s.data.highlights.map((h) => (
+                        <li>{h}</li>
+                      ))}
+                    </ul>
+                  )}
+                  <p class="more">Read more →</p>
+                </div>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </Container>
+  </Section>
+</BaseLayout>
+
+<style>
+  .service-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-5);
+  }
+  .service-list a {
+    display: grid;
+    grid-template-columns: 3rem 1fr;
+    gap: var(--space-5);
+    padding: var(--space-6);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    color: inherit;
+    transition: border-color var(--duration-fast) var(--ease-out);
+  }
+  .service-list a:hover {
+    border-color: var(--color-accent);
+  }
+  .icon {
+    font-size: var(--text-2xl);
+  }
+  .service-list h2 {
+    font-size: var(--text-xl);
+    margin-bottom: var(--space-2);
+  }
+  .service-list p {
+    color: var(--color-fg-muted);
+    margin: 0 0 var(--space-3);
+  }
+  .highlights {
+    margin: 0 0 var(--space-3);
+    padding-left: 1rem;
+    color: var(--color-fg-muted);
+  }
+  .highlights li {
+    margin-bottom: 0.25rem;
+  }
+  .more {
+    color: var(--color-link);
+    font-weight: 600;
+  }
+</style>

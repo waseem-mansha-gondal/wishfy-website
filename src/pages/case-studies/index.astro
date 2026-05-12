@@ -1,0 +1,128 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Container from "../../components/Container.astro";
+import Section from "../../components/Section.astro";
+import Hero from "../../components/Hero.astro";
+import { breadcrumbSchema } from "../../lib/schema";
+
+const cases = (
+  await getCollection("case-studies", ({ data }) => !data.draft)
+).sort((a, b) => +b.data.pubDate - +a.data.pubDate);
+
+const siteUrl = Astro.site ?? new URL("https://hello-client.pages.dev");
+const jsonLd = [
+  breadcrumbSchema(siteUrl, [
+    { name: "Home", url: "/" },
+    { name: "Case studies", url: "/case-studies/" },
+  ]),
+];
+---
+
+<BaseLayout
+  title="Case studies"
+  description="A selection of client engagements and their outcomes."
+  jsonLd={jsonLd}
+>
+  <Section>
+    <Container>
+      <Hero
+        eyebrow="Case studies"
+        title="Selected work"
+        lede="A short read on the engagements we're proudest of — the problem, what we did, and the measurable result."
+      />
+    </Container>
+  </Section>
+
+  <Section tone="muted">
+    <Container>
+      {cases.length === 0 ? (
+        <p>Case studies coming soon.</p>
+      ) : (
+        <ul class="cases">
+          {cases.map((c) => (
+            <li>
+              <a href={`/case-studies/${c.slug}/`}>
+                <p class="kicker">
+                  {c.data.client}
+                  {c.data.industry && <span> · {c.data.industry}</span>}
+                </p>
+                <h2>{c.data.title}</h2>
+                <p>{c.data.summary}</p>
+                {c.data.metrics.length > 0 && (
+                  <dl class="metrics">
+                    {c.data.metrics.map((m) => (
+                      <div>
+                        <dt>{m.label}</dt>
+                        <dd>{m.value}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                )}
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </Container>
+  </Section>
+</BaseLayout>
+
+<style>
+  .cases {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-5);
+  }
+  .cases a {
+    display: block;
+    padding: var(--space-6);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    color: inherit;
+    text-decoration: none;
+    transition: border-color var(--duration-fast) var(--ease-out);
+  }
+  .cases a:hover {
+    border-color: var(--color-accent);
+  }
+  .kicker {
+    color: var(--color-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: var(--text-xs);
+    margin-bottom: var(--space-3);
+  }
+  .cases h2 {
+    font-size: var(--text-xl);
+    margin-bottom: var(--space-2);
+  }
+  .cases p {
+    color: var(--color-fg-muted);
+    margin: 0;
+  }
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+    gap: var(--space-4);
+    margin: var(--space-5) 0 0;
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-border);
+  }
+  .metrics dt {
+    color: var(--color-fg-subtle);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .metrics dd {
+    margin: 0;
+    font-size: var(--text-2xl);
+    color: var(--color-fg);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+</style>

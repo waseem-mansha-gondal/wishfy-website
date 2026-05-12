@@ -1,0 +1,107 @@
+---
+import { SITE, FOOTER_GROUPS } from "../consts";
+import Container from "./Container.astro";
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <Container>
+    <div class="grid">
+      <div class="brand-col">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true">✦</span>
+          <span>{SITE.name}</span>
+        </div>
+        <p class="tagline">{SITE.tagline}</p>
+      </div>
+      {
+        FOOTER_GROUPS.map((group) => (
+          <div>
+            <h3 class="col-title">{group.title}</h3>
+            <ul>
+              {group.links.map((link) => (
+                <li>
+                  <a href={link.href}>{link.label}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+    <div class="meta">
+      <small>© {year} {SITE.organization}. All rights reserved.</small>
+      <small class="built">
+        Built on the
+        <a href="https://github.com/wishfyai/wishfy-website">Wishfy stack</a>.
+      </small>
+    </div>
+  </Container>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: var(--space-12);
+    padding-block: var(--space-10);
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    color: var(--color-fg-muted);
+    font-size: var(--text-sm);
+  }
+  .grid {
+    display: grid;
+    gap: var(--space-8);
+    grid-template-columns: 2fr repeat(auto-fit, minmax(8rem, 1fr));
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-fg);
+    font-weight: 600;
+  }
+  .brand-mark {
+    color: var(--color-accent);
+  }
+  .tagline {
+    margin-top: var(--space-3);
+    max-width: 28ch;
+  }
+  .col-title {
+    font-size: var(--text-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-fg-subtle);
+    margin-bottom: var(--space-3);
+  }
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: var(--space-2);
+  }
+  a {
+    color: var(--color-fg-muted);
+    text-decoration: none;
+  }
+  a:hover {
+    color: var(--color-fg);
+    text-decoration: underline;
+  }
+  .meta {
+    margin-top: var(--space-8);
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--color-border);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-3);
+    color: var(--color-fg-subtle);
+  }
+  .built a {
+    color: inherit;
+    text-decoration: underline;
+  }
+</style>
