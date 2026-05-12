@@ -1,0 +1,32 @@
+{
+  "locale": "nl",
+  "name": "Nederlands",
+  "shortName": "NL",
+  "direction": "ltr",
+  "htmlLang": "nl",
+  "ogLocale": "nl_NL",
+  "schemaInLanguage": "nl-NL",
+  "ui": {
+    "skipToContent": "Ga naar inhoud",
+    "languageSwitcher": "Taal",
+    "switchTo": "Wissel naar {language}",
+    "currentLanguage": "Huidige taal",
+    "home": "Home",
+    "menu": "Menu",
+    "closeMenu": "Menu sluiten",
+    "primaryNav": "Hoofdnavigatie",
+    "readMore": "Lees meer",
+    "back": "Terug",
+    "next": "Volgende",
+    "previous": "Vorige"
+  },
+  "meta": {
+    "siteTagline": "Een website die je niet in de weg zit en gewoon werkt.",
+    "homeTitle": "Hallo, klant.",
+    "homeDescription": "Hello Client — een startsite gebouwd op de Wishfy website stack."
+  },
+  "router": {
+    "redirectingTitle": "Taal kiezen…",
+    "redirectingMessage": "Als je niet automatisch doorgestuurd wordt, volg dan deze link naar de Nederlandse site."
+  }
+}

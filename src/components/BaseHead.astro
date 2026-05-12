@@ -1,24 +1,64 @@
 ---
 import { SITE } from "../consts";
+import {
+  DEFAULT_LOCALE,
+  buildHreflangs,
+  getStrings,
+  stripLocaleFromPath,
+  type Locale,
+} from "../lib/i18n";
 
 interface Props {
   title: string;
   description?: string;
   ogImage?: string;
+  /** Page locale. Drives og:locale, hreflang htmlLang, schema inLanguage. */
+  locale?: Locale;
+  /**
+   * Sub-path-per-locale map (no locale prefix). When provided, hreflang tags
+   * are emitted per i18n-Strategy.md §3 (reciprocal, no fallback links).
+   *
+   * When omitted, hreflang is auto-generated for ALL launch locales using
+   * the current page's sub-path. That default is correct for chrome pages
+   * like the homepage where every locale has a real equivalent at the same
+   * sub-path — content collections with localized slugs MUST override.
+   */
+  translations?: Partial<Record<Locale, string>>;
 }
 
-const { title, description = SITE.description, ogImage = "/og-default.png" } =
-  Astro.props;
+const {
+  title,
+  description = SITE.description,
+  ogImage = "/og-default.png",
+  locale = DEFAULT_LOCALE,
+  translations,
+} = Astro.props;
 
-const canonical = new URL(Astro.url.pathname, Astro.site).toString();
-const ogImageUrl = new URL(ogImage, Astro.site).toString();
+const strings = getStrings(locale);
+const siteUrl = Astro.site ?? new URL("https://hello-client.pages.dev");
+const canonical = new URL(Astro.url.pathname, siteUrl).toString();
+const ogImageUrl = new URL(ogImage, siteUrl).toString();
 const cfToken = import.meta.env.PUBLIC_CF_ANALYTICS_TOKEN;
+
+// Default the alternates to "every launch locale at the same sub-path" when
+// the caller hasn't provided a translation_key-driven map. This is correct
+// for chrome pages (home, 404) where every locale has a real equivalent at
+// the same path; content collections with localized slugs must override.
+const subPath = stripLocaleFromPath(Astro.url.pathname);
+const effectiveTranslations: Partial<Record<Locale, string>> = translations ?? {
+  en: subPath,
+  nl: subPath,
+  de: subPath,
+  fr: subPath,
+};
+const hreflangs = buildHreflangs(siteUrl, effectiveTranslations);
 
 const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
   name: SITE.organization,
-  url: Astro.site?.toString(),
+  url: siteUrl.toString(),
+  inLanguage: strings.schemaInLanguage,
 };
 ---
 
@@ -32,6 +72,13 @@ const organizationJsonLd = {
 <link rel="canonical" href={canonical} />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
+<!-- hreflang alternates (WIS-14 / i18n-Strategy.md §3) -->
+{
+  hreflangs.map((entry) => (
+    <link rel="alternate" hreflang={entry.hreflang} href={entry.href} />
+  ))
+}
+
 <!-- Open Graph -->
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content={SITE.name} />
@@ -39,7 +86,7 @@ const organizationJsonLd = {
 <meta property="og:description" content={description} />
 <meta property="og:url" content={canonical} />
 <meta property="og:image" content={ogImageUrl} />
-<meta property="og:locale" content={SITE.locale} />
+<meta property="og:locale" content={strings.ogLocale} />
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image" />

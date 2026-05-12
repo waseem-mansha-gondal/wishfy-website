@@ -1,0 +1,32 @@
+{
+  "locale": "de",
+  "name": "Deutsch",
+  "shortName": "DE",
+  "direction": "ltr",
+  "htmlLang": "de",
+  "ogLocale": "de_DE",
+  "schemaInLanguage": "de-DE",
+  "ui": {
+    "skipToContent": "Zum Inhalt springen",
+    "languageSwitcher": "Sprache",
+    "switchTo": "Zu {language} wechseln",
+    "currentLanguage": "Aktuelle Sprache",
+    "home": "Startseite",
+    "menu": "Menü",
+    "closeMenu": "Menü schließen",
+    "primaryNav": "Hauptnavigation",
+    "readMore": "Weiterlesen",
+    "back": "Zurück",
+    "next": "Weiter",
+    "previous": "Zurück"
+  },
+  "meta": {
+    "siteTagline": "Eine Website, die nicht im Weg steht und einfach funktioniert.",
+    "homeTitle": "Hallo, Kunde.",
+    "homeDescription": "Hello Client — eine Startseite, gebaut auf dem Wishfy Website-Stack."
+  },
+  "router": {
+    "redirectingTitle": "Sprache wird gewählt…",
+    "redirectingMessage": "Falls Sie nicht automatisch weitergeleitet werden, folgen Sie diesem Link zur deutschen Seite."
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "locale": "en",
+  "name": "English",
+  "shortName": "EN",
+  "direction": "ltr",
+  "htmlLang": "en",
+  "ogLocale": "en_US",
+  "schemaInLanguage": "en",
+  "ui": {
+    "skipToContent": "Skip to content",
+    "languageSwitcher": "Language",
+    "switchTo": "Switch to {language}",
+    "currentLanguage": "Current language",
+    "home": "Home",
+    "menu": "Menu",
+    "closeMenu": "Close menu",
+    "primaryNav": "Primary navigation",
+    "readMore": "Read more",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous"
+  },
+  "meta": {
+    "siteTagline": "A website that gets out of the way and gets work done.",
+    "homeTitle": "Hello, client.",
+    "homeDescription": "Hello Client — a starter site built on the Wishfy website stack."
+  },
+  "router": {
+    "redirectingTitle": "Choosing your language…",
+    "redirectingMessage": "If you are not redirected automatically, follow this link to the English site."
+  }
+}

@@ -1,20 +1,101 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
-import { SITE } from "../consts";
+/**
+ * Root language router (WIS-14 / i18n-Strategy.md §2).
+ *
+ * The strategy specifies a 302 redirect at `/` based on:
+ *   1. `wishfy_lang` cookie (manual user pick)
+ *   2. `Accept-Language` header (browser preference)
+ *   3. fallback `/en/`
+ *
+ * In the current static build (`output: 'static'`) we cannot read cookies
+ * or request headers at request time. To still honour user preference we
+ * ship a minimal HTML document that:
+ *   - reads the cookie and `navigator.languages` client-side and calls
+ *     `location.replace(...)` so the entry in browser history is the
+ *     localized URL, not `/`
+ *   - falls back to a `<meta http-equiv="refresh">` if JS is disabled
+ *   - declares a canonical to `/en/` and `noindex` so search engines do
+ *     not index this routing shim
+ *
+ * Follow-up: once we add a server adapter (Vercel) for the contact form
+ * endpoint, convert this page to SSR (`export const prerender = false`)
+ * and replace the client-side detection with a server-side
+ * `Astro.redirect(..., 302)` that honours the request headers per spec.
+ * Tracked separately so this ticket is not blocked on adapter selection.
+ */
+import {
+  DEFAULT_LOCALE,
+  LANG_COOKIE,
+  LOCALES,
+  getStrings,
+  localizedPath,
+} from "../lib/i18n";
+
+const strings = getStrings(DEFAULT_LOCALE);
+const fallbackPath = localizedPath(DEFAULT_LOCALE, "/");
+const siteUrl = Astro.site ?? new URL("https://hello-client.pages.dev");
+const canonical = new URL(fallbackPath, siteUrl).toString();
 ---
 
-<BaseLayout title={SITE.name} description={SITE.description}>
-  <h1>Hello, client.</h1>
-  <p>
-    This is a starter site built on the <strong>Wishfy website stack</strong>:
-    Astro, Cloudflare Pages, GitHub Actions, and a privacy-friendly analytics
-    + SEO baseline that is ready to ship.
-  </p>
-  <p>
-    Edit <code>src/pages/index.astro</code> and
-    <code>src/consts.ts</code> to make it yours.
-  </p>
-  <p>
-    <a href="/sitemap-index.xml">View sitemap →</a>
-  </p>
-</BaseLayout>
+<!doctype html>
+<html lang={strings.htmlLang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>{strings.router.redirectingTitle}</title>
+    <meta name="robots" content="noindex,follow" />
+    <link rel="canonical" href={canonical} />
+    <meta http-equiv="refresh" content={`0; url=${fallbackPath}`} />
+    <script
+      is:inline
+      define:vars={{
+        SUPPORTED: LOCALES as readonly string[],
+        DEFAULT_LOCALE,
+        LANG_COOKIE,
+      }}
+    >
+      (function () {
+        try {
+          // 1. Manual cookie pick — wins over everything else.
+          var pick = null;
+          var cookies = document.cookie ? document.cookie.split("; ") : [];
+          for (var i = 0; i < cookies.length && !pick; i++) {
+            var idx = cookies[i].indexOf("=");
+            if (idx === -1) continue;
+            var name = cookies[i].slice(0, idx);
+            if (name !== LANG_COOKIE) continue;
+            var value = decodeURIComponent(cookies[i].slice(idx + 1));
+            if (SUPPORTED.indexOf(value) !== -1) pick = value;
+          }
+          // 2. Browser-stated preference (navigator.languages, then language).
+          if (!pick) {
+            var nav =
+              navigator.languages && navigator.languages.length
+                ? navigator.languages
+                : [navigator.language || ""];
+            for (var j = 0; j < nav.length && !pick; j++) {
+              var tag = String(nav[j] || "").toLowerCase().split("-")[0];
+              if (SUPPORTED.indexOf(tag) !== -1) pick = tag;
+            }
+          }
+          // 3. Fallback.
+          if (!pick) pick = DEFAULT_LOCALE;
+          // location.replace so this routing shim doesn't pollute history.
+          location.replace("/" + pick + "/");
+        } catch (_err) {
+          location.replace("/" + DEFAULT_LOCALE + "/");
+        }
+      })();
+    </script>
+    <style>
+      body {
+        font: 1rem/1.5 system-ui, sans-serif;
+        padding: 2rem;
+      }
+    </style>
+  </head>
+  <body>
+    <p>{strings.router.redirectingMessage}</p>
+    <p><a href={fallbackPath}>{fallbackPath}</a></p>
+  </body>
+</html>

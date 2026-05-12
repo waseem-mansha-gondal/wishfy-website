@@ -1,0 +1,44 @@
+---
+/**
+ * Localized homepage placeholder (WIS-14).
+ *
+ * Generates one homepage per launch locale at /<lang>/. Real content lands
+ * in WIS-19 (BaseLayout/Nav/Footer build) and the content collections that
+ * follow. The page is wired up enough today to:
+ *
+ *  - return 200 with the correct <html lang> + <html dir>
+ *  - emit hreflang alternates for all four locales (chrome page — same
+ *    sub-path in every language)
+ *  - render the language switcher
+ *  - prove the lib/i18n.ts helpers work end to end
+ *
+ * `getStaticPaths` is closed over the LOCALES list — unknown languages will
+ * therefore 404, not silently redirect (per i18n-Strategy.md §2).
+ */
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import LanguageSwitcher from "../../components/LanguageSwitcher.astro";
+import { LOCALES, getStrings, isLocale, type Locale } from "../../lib/i18n";
+
+export function getStaticPaths() {
+  return LOCALES.map((lang) => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params;
+if (!isLocale(lang)) {
+  // Defensive: getStaticPaths already constrains this, but TS doesn't know.
+  throw new Error(`Unsupported locale: ${lang}`);
+}
+const locale: Locale = lang;
+const strings = getStrings(locale);
+---
+
+<BaseLayout
+  title={strings.meta.homeTitle}
+  description={strings.meta.homeDescription}
+  locale={locale}
+>
+  <LanguageSwitcher current={locale} />
+  <h1>{strings.meta.homeTitle}</h1>
+  <p>{strings.meta.siteTagline}</p>
+  <p>{strings.meta.homeDescription}</p>
+</BaseLayout>

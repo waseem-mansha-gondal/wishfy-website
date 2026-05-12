@@ -1,0 +1,32 @@
+{
+  "locale": "fr",
+  "name": "Français",
+  "shortName": "FR",
+  "direction": "ltr",
+  "htmlLang": "fr",
+  "ogLocale": "fr_FR",
+  "schemaInLanguage": "fr-FR",
+  "ui": {
+    "skipToContent": "Aller au contenu",
+    "languageSwitcher": "Langue",
+    "switchTo": "Passer en {language}",
+    "currentLanguage": "Langue actuelle",
+    "home": "Accueil",
+    "menu": "Menu",
+    "closeMenu": "Fermer le menu",
+    "primaryNav": "Navigation principale",
+    "readMore": "Lire la suite",
+    "back": "Retour",
+    "next": "Suivant",
+    "previous": "Précédent"
+  },
+  "meta": {
+    "siteTagline": "Un site qui se fait oublier et qui fait le travail.",
+    "homeTitle": "Bonjour, client.",
+    "homeDescription": "Hello Client — un site de départ basé sur la stack web Wishfy."
+  },
+  "router": {
+    "redirectingTitle": "Choix de la langue…",
+    "redirectingMessage": "Si vous n'êtes pas redirigé automatiquement, suivez ce lien vers le site en français."
+  }
+}

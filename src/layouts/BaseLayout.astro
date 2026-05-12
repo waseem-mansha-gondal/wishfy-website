@@ -1,20 +1,49 @@
 ---
 import BaseHead from "../components/BaseHead.astro";
 import { SITE } from "../consts";
+import {
+  DEFAULT_LOCALE,
+  getDirection,
+  getStrings,
+  type Locale,
+} from "../lib/i18n";
 
 interface Props {
   title: string;
   description?: string;
+  /**
+   * Page locale. Drives <html lang>, <html dir>, og:locale, hreflang
+   * generation, and schema `inLanguage`. Defaults to the project default so
+   * legacy single-language pages keep working during the i18n rollout.
+   */
+  locale?: Locale;
+  /**
+   * Sub-path of this page *without* the locale prefix — used to build
+   * hreflang alternates. Pass the same sub-path you would localize for any
+   * other locale, e.g. `/services/seo/`. Defaults to the current request's
+   * sub-path with the locale segment stripped.
+   *
+   * Pass `translations` to opt into hreflang for ONLY the locales that have
+   * a real translated equivalent (per i18n-Strategy.md §3).
+   */
+  translations?: Partial<Record<Locale, string>>;
 }
 
-const { title, description } = Astro.props;
+const { title, description, locale = DEFAULT_LOCALE, translations } = Astro.props;
+
+const strings = getStrings(locale);
 const fullTitle = title === SITE.name ? title : `${title} — ${SITE.name}`;
 ---
 
 <!doctype html>
-<html lang={SITE.locale}>
+<html lang={strings.htmlLang} dir={getDirection(locale)}>
   <head>
-    <BaseHead title={fullTitle} description={description} />
+    <BaseHead
+      title={fullTitle}
+      description={description}
+      locale={locale}
+      translations={translations}
+    />
   </head>
   <body>
     <main>
