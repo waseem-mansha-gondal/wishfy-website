@@ -1,0 +1,6 @@
+---
+// Root index — redirects to /en/ as default
+// Per Website-Brief.md §3: 302 redirect to user's preferred language
+// Dynamic language detection is handled client-side or via edge middleware
+return Astro.redirect('/en/', 302);
+---

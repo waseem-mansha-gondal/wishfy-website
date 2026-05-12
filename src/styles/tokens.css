@@ -1,0 +1,78 @@
+/* Wishfy Design Tokens — generated from Brand-Tokens.json */
+/* Single source of truth. Do not hard-code values elsewhere. */
+
+@layer base {
+  :root {
+    /* === Colors === */
+    --color-black: #0A0A0A;
+    --color-white: #FFFFFF;
+    --color-electric-blue: #3B82F6;
+    --color-electric-blue-light: #60A5FA;
+    --color-electric-blue-dark: #1D4ED8;
+    --color-surface-dark: #111111;
+    --color-surface-card: #1A1A1A;
+    --color-surface-light: #F8F8F8;
+    --color-text-primary: #FFFFFF;
+    --color-text-secondary: rgba(255,255,255,0.65);
+    --color-text-muted: rgba(255,255,255,0.4);
+    --color-text-on-light: #0A0A0A;
+    --color-border: rgba(255,255,255,0.08);
+
+    /* === Typography === */
+    --font-primary: 'Mona Sans', system-ui, -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+    /* Type scale */
+    --text-display-xl: 110px;
+    --text-h1: 80px;
+    --text-h2: 38px;
+    --text-h3: 30px;
+    --text-h4: 24px;
+    --text-h5: 21px;
+    --text-h6: 19px;
+    --text-body-xl: 24px;
+    --text-body-lg: 17px;
+    --text-body: 15px;
+    --text-body-sm: 13px;
+    --text-footnote: 12px;
+
+    --line-height-default: 1.5;
+    --letter-spacing-eyebrow: 0.05em;
+
+    /* === Spacing (4px base) === */
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 20px;
+    --space-6: 24px;
+    --space-8: 32px;
+    --space-10: 40px;
+    --space-12: 48px;
+    --space-16: 64px;
+    --space-20: 80px;
+    --space-24: 96px;
+    --space-32: 128px;
+
+    /* === Border radius === */
+    --radius-sm: 6px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+    --radius-full: 9999px;
+
+    /* === Shadows === */
+    --shadow-card: 0 1px 3px rgba(0,0,0,0.3), 0 4px 16px rgba(0,0,0,0.2);
+    --shadow-modal: 0 8px 32px rgba(0,0,0,0.5);
+
+    /* === Motion === */
+    --motion-duration-default: 200ms;
+    --motion-easing-default: cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* === Layout === */
+    --layout-container-max: 1280px;
+    --layout-container-prose: 720px;
+
+    /* === Gradients === */
+    --gradient-sparkle: radial-gradient(circle at 70% 20%, #3B82F6 0%, #8B5CF6 40%, transparent 70%);
+  }
+}
