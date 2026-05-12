@@ -1,78 +1,165 @@
-/* Wishfy Design Tokens — generated from Brand-Tokens.json */
-/* Single source of truth. Do not hard-code values elsewhere. */
+/* AUTO-GENERATED — do not edit manually. Run: pnpm tokens:build */
+/* Source: Brand-Tokens.json v2.0.0 */
 
-@layer base {
+@import './fonts.css';
+
+:root {
+  /* === Base colors === */
+  --color-black: #000000;
+  --color-white: #FFFFFF;
+
+  /* === Gray scale === */
+  --color-gray-100: #D6D6D6;
+  --color-gray-200: #AFAFAF;
+  --color-gray-500: #656565;
+  --color-gray-800: #242424;
+  --color-gray-900: #000000;
+
+  /* === Blue (Electric Blue) === */
+  --color-blue-100: #E8E8FF;
+  --color-blue-200: #BCBCFF;
+  --color-blue-300: #8F8FFF;
+  --color-blue-500: #6161FE;
+  --color-blue-700: #2323FE;
+
+  /* === Green === */
+  --color-green-100: #B9FFC0;
+  --color-green-300: #09E549;
+  --color-green-500: #05B839;
+  --color-green-700: #038E2A;
+  --color-green-900: #01661C;
+
+  /* === Navy === */
+  --color-navy-100: #D8DFF4;
+  --color-navy-200: #A6B6E6;
+  --color-navy-400: #7290D8;
+  --color-navy-700: #32497B;
+  --color-navy-900: #1B2A4A;
+
+  /* === Coral === */
+  --color-coral-100: #FFEDEA;
+  --color-coral-200: #FEC4BC;
+  --color-coral-300: #FE8A72;
+  --color-coral-500: #FF6D4E;
+  --color-coral-700: #E8540A;
+
+  /* === Semantic aliases === */
+  --bg-surface: #FFFFFF;
+  --bg-surface-alt: #D6D6D6;
+  --bg-inverse: #000000;
+  --bg-brand: #000000;
+  --text-primary: #000000;
+  --text-secondary: #656565;
+  --text-muted: #AFAFAF;
+  --text-inverse: #FFFFFF;
+  --text-accent: #2323FE;
+  --link: #2323FE;
+  --link-hover: #6161FE;
+  --border-default: #D6D6D6;
+  --border-strong: #AFAFAF;
+  --focus-ring: #2323FE;
+  --success: #05B839;
+  --warning: #FF6D4E;
+  --error: #E8540A;
+  --highlight: #E8540A;
+  --deep: #1B2A4A;
+  --color-whatsapp: #25D366;
+
+  /* === Gradients === */
+  --gradient-sparkle: linear-gradient(180deg, #5BC5C5 0%, #B69BFF 28%, #FF6D4E 55%, #6161FE 100%);
+  --gradient-sparkle-radial: radial-gradient(circle at 50% 30%, #5BC5C5, #FF6D4E 60%, #6161FE);
+
+  /* === Typography === */
+  --font-display: 'Mona Sans', system-ui, -apple-system, sans-serif;
+  --font-body: 'Mona Sans', system-ui, -apple-system, sans-serif;
+  --font-secondary: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+  --fw-extra: 800;
+
+  --text-display-xl: clamp(48px, 8vw, 110px);
+  --text-h1: clamp(40px, 6vw, 80px);
+  --text-h2: clamp(28px, 3.2vw, 38px);
+  --text-h3: 30px;
+  --text-h4: 24px;
+  --text-h5: 21px;
+  --text-h6: 19px;
+  --text-body-xl: 24px;
+  --text-body-lg: 17px;
+  --text-body: 15px;
+  --text-body-sm: 13px;
+  --text-footnote: 12px;
+
+  --leading-tight: 1.2;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.6;
+  --tracking-normal: 0;
+  --tracking-wider: 0.05em;
+
+  /* === Spacing === */
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+  --space-32: 128px;
+  --space-40: 160px;
+
+  /* === Border radius === */
+  --radius-none: 0;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* === Shadows === */
+  --shadow-none: none;
+  --shadow-card: 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-modal: 0 8px 24px rgba(0,0,0,0.08);
+  --shadow-focus: 0 0 0 3px rgba(35, 35, 254, 0.35);
+
+  /* === Motion === */
+  --motion-instant: 0ms;
+  --motion-fast: 120ms;
+  --motion-default: 200ms;
+  --motion-slow: 400ms;
+  --easing-default: cubic-bezier(0.2, 0, 0, 1);
+  --easing-in: cubic-bezier(0.4, 0, 1, 1);
+  --easing-out: cubic-bezier(0, 0, 0.2, 1);
+  --easing-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* === Layout === */
+  --container-max: 1280px;
+  --container-prose: 720px;
+  --container-pad-mobile: 16px;
+  --container-pad-desktop: 24px;
+  --header-height: 72px;
+}
+
+@media (prefers-color-scheme: dark) {
   :root {
-    /* === Colors === */
-    --color-black: #0A0A0A;
-    --color-white: #FFFFFF;
-    --color-electric-blue: #3B82F6;
-    --color-electric-blue-light: #60A5FA;
-    --color-electric-blue-dark: #1D4ED8;
-    --color-surface-dark: #111111;
-    --color-surface-card: #1A1A1A;
-    --color-surface-light: #F8F8F8;
-    --color-text-primary: #FFFFFF;
-    --color-text-secondary: rgba(255,255,255,0.65);
-    --color-text-muted: rgba(255,255,255,0.4);
-    --color-text-on-light: #0A0A0A;
-    --color-border: rgba(255,255,255,0.08);
-
-    /* === Typography === */
-    --font-primary: 'Mona Sans', system-ui, -apple-system, sans-serif;
-    --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
-
-    /* Type scale */
-    --text-display-xl: 110px;
-    --text-h1: 80px;
-    --text-h2: 38px;
-    --text-h3: 30px;
-    --text-h4: 24px;
-    --text-h5: 21px;
-    --text-h6: 19px;
-    --text-body-xl: 24px;
-    --text-body-lg: 17px;
-    --text-body: 15px;
-    --text-body-sm: 13px;
-    --text-footnote: 12px;
-
-    --line-height-default: 1.5;
-    --letter-spacing-eyebrow: 0.05em;
-
-    /* === Spacing (4px base) === */
-    --space-1: 4px;
-    --space-2: 8px;
-    --space-3: 12px;
-    --space-4: 16px;
-    --space-5: 20px;
-    --space-6: 24px;
-    --space-8: 32px;
-    --space-10: 40px;
-    --space-12: 48px;
-    --space-16: 64px;
-    --space-20: 80px;
-    --space-24: 96px;
-    --space-32: 128px;
-
-    /* === Border radius === */
-    --radius-sm: 6px;
-    --radius-lg: 16px;
-    --radius-xl: 24px;
-    --radius-full: 9999px;
-
-    /* === Shadows === */
-    --shadow-card: 0 1px 3px rgba(0,0,0,0.3), 0 4px 16px rgba(0,0,0,0.2);
-    --shadow-modal: 0 8px 32px rgba(0,0,0,0.5);
-
-    /* === Motion === */
-    --motion-duration-default: 200ms;
-    --motion-easing-default: cubic-bezier(0.4, 0, 0.2, 1);
-
-    /* === Layout === */
-    --layout-container-max: 1280px;
-    --layout-container-prose: 720px;
-
-    /* === Gradients === */
-    --gradient-sparkle: radial-gradient(circle at 70% 20%, #3B82F6 0%, #8B5CF6 40%, transparent 70%);
+    --bg-surface: #000000;
+    --bg-surface-alt: #242424;
+    --bg-inverse: #FFFFFF;
+    --bg-brand: #FFFFFF;
+    --text-primary: #FFFFFF;
+    --text-secondary: #D6D6D6;
+    --text-muted: #656565;
+    --text-accent: #8F8FFF;
+    --link: #8F8FFF;
+    --border-default: #242424;
   }
 }

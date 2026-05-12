@@ -1,7 +1,6 @@
 /* Base reset + global styles */
 @import "tailwindcss";
 @import './tokens.css';
-@import './fonts.css';
 
 @layer base {
   *, *::before, *::after {
@@ -26,17 +25,17 @@
   }
 
   body {
-    font-family: var(--font-primary);
+    font-family: var(--font-body);
     font-size: var(--text-body); /* 15px body baseline */
-    line-height: var(--line-height-default);
-    color: var(--color-text-primary);
-    background-color: var(--color-black);
+    line-height: var(--leading-normal);
+    color: var(--text-primary);
+    background-color: var(--bg-surface);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    line-height: var(--line-height-default);
+    line-height: var(--leading-normal);
     font-weight: 700;
   }
 
@@ -51,6 +50,6 @@
   }
 
   code, pre {
-    font-family: var(--font-mono);
+    font-family: var(--font-mono); /* --font-mono set in tokens.css */
   }
 }

@@ -5,9 +5,10 @@
   "private": true,
   "packageManager": "pnpm@9.0.0",
   "scripts": {
-    "dev": "astro dev",
+    "tokens:build": "node --import tsx/esm scripts/build-tokens.ts",
+    "dev": "pnpm tokens:build && astro dev",
     "start": "astro dev",
-    "build": "astro check && astro build",
+    "build": "pnpm tokens:build && astro check && astro build",
     "preview": "astro preview",
     "typecheck": "astro check",
     "lint": "eslint src --ext .ts,.astro",
@@ -44,6 +45,7 @@
     "eslint-plugin-astro": "^1.0.0",
     "prettier": "^3.0.0",
     "style-dictionary": "^4.0.0",
+    "tsx": "^4.21.0",
     "typescript": "^5.0.0",
     "vitest": "^2.0.0"
   }
