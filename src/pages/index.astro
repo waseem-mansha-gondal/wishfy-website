@@ -1,0 +1,20 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { SITE } from "../consts";
+---
+
+<BaseLayout title={SITE.name} description={SITE.description}>
+  <h1>Hello, client.</h1>
+  <p>
+    This is a starter site built on the <strong>Wishfy website stack</strong>:
+    Astro, Cloudflare Pages, GitHub Actions, and a privacy-friendly analytics
+    + SEO baseline that is ready to ship.
+  </p>
+  <p>
+    Edit <code>src/pages/index.astro</code> and
+    <code>src/consts.ts</code> to make it yours.
+  </p>
+  <p>
+    <a href="/sitemap-index.xml">View sitemap →</a>
+  </p>
+</BaseLayout>
