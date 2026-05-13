@@ -63,6 +63,15 @@ Until the first paying client, total recurring spend on this stack is
 capped at **≤ $10/month** (Plausible at $9 is the only paid line). Each
 upgrade requires a fresh CEO spend approval.
 
+## License
+
+**Proprietary / All Rights Reserved** — decided by CEO on 2026-05-13 (WIS-28 item 4).
+
+Rationale: wishfy.ai is a commercial product surface, not a library. MIT would expose the
+storefront source on day one. The door can be reopened if a specific piece later
+becomes a reusable OSS asset. Consistent with `"private": true` in `package.json` and
+the private-repo decision in WIS-28 item (1).
+
 ## Cross-references
 
 - Stack decision: [WIS-24 → `decision`](/WIS/issues/WIS-24#document-decision)
