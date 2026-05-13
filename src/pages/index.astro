@@ -6,6 +6,7 @@ import Section from "../components/Section.astro";
 import Hero from "../components/Hero.astro";
 import Button from "../components/Button.astro";
 import { SITE } from "../consts";
+import { formatDate, isoDate } from "../lib/format";
 
 type ServiceEntry = CollectionEntry<"services">;
 type CaseEntry = CollectionEntry<"case-studies">;
@@ -100,9 +101,9 @@ const recentPosts = (await getCollection("blog"))
               <li>
                 <a href={`/blog/${p.slug}/`}>
                   <span>{p.data.title}</span>
-                  <span class="post-date">
-                    {p.data.pubDate.toISOString().slice(0, 10)}
-                  </span>
+                  <time class="post-date" datetime={isoDate(p.data.pubDate)}>
+                    {formatDate(p.data.pubDate)}
+                  </time>
                 </a>
               </li>
             ))}

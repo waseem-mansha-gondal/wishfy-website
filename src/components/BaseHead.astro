@@ -65,7 +65,10 @@ const allJsonLd = [...baseJsonLd, ...jsonLd];
 <!-- JSON-LD -->
 {
   allJsonLd.map((entry) => (
-    <script type="application/ld+json" set:html={JSON.stringify(entry)} />
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(entry).replace(/</g, "\\u003c")}
+    />
   ))
 }
 
@@ -75,7 +78,7 @@ const allJsonLd = [...baseJsonLd, ...jsonLd];
       is:inline
       defer
       src="https://static.cloudflareinsights.com/beacon.min.js"
-      data-cf-beacon={`{"token": "${cfToken}"}`}
+      data-cf-beacon={JSON.stringify({ token: cfToken })}
     />
   )
 }
