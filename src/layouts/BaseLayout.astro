@@ -1,11 +1,13 @@
 ---
 import '@/styles/base.css';
+import { organizationSchema, websiteSchema } from '@/lib/schema';
 
 interface Props {
   title: string;
   description?: string;
   lang?: string;
   canonicalUrl?: string;
+  jsonLd?: unknown[];
 }
 
 const {
@@ -13,9 +15,14 @@ const {
   description = 'Wishfy makes your business the obvious answer in Google, ChatGPT, Claude, Perplexity, and every search that matters.',
   lang = 'en',
   canonicalUrl,
+  jsonLd = [],
 } = Astro.props;
 
-const canonical = canonicalUrl ?? new URL(Astro.url.pathname, Astro.site).toString();
+const siteUrl = Astro.site ?? new URL('https://wishfy.ai');
+const canonical = canonicalUrl ?? new URL(Astro.url.pathname, siteUrl).toString();
+
+// Every page gets Organization + WebSite schema (Brief §6).
+const allSchemas = [organizationSchema(siteUrl), websiteSchema(siteUrl), ...jsonLd];
 ---
 
 <!doctype html>
@@ -35,8 +42,17 @@ const canonical = canonicalUrl ?? new URL(Astro.url.pathname, Astro.site).toStri
       crossorigin="anonymous"
     />
     <meta name="generator" content={Astro.generator} />
+    {
+      allSchemas.map((s) => (
+        <script
+          is:inline
+          type="application/ld+json"
+          set:html={JSON.stringify(s)}
+        />
+      ))
+    }
   </head>
-  <body>
+  <body class="min-h-screen bg-[var(--bg-surface)] text-[var(--text-primary)]">
     <slot />
   </body>
 </html>

@@ -1,0 +1,184 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Container from '@/components/Container.astro';
+import Section from '@/components/Section.astro';
+import Hero from '@/components/Hero.astro';
+import Button from '@/components/Button.astro';
+import { breadcrumbSchema } from '@/lib/schema';
+
+const services = [
+  {
+    slug: 'content-ignition',
+    title: 'Content Ignition',
+    tag: 'One-off launch · 6 weeks · $6,500',
+    summary:
+      'The foundation a content engine needs before it commits to a retainer.',
+    highlights: [
+      'Audit of existing pages (up to 50 URLs) vs. top 3 competitors',
+      '12-week editorial calendar with keyword + intent mapping',
+      'Four optimised long-form articles (1,500–2,000 words)',
+      'Brief template library and a live handoff session',
+    ],
+  },
+  {
+    slug: 'content-growth',
+    title: 'Content Growth',
+    tag: 'Retainer · 3-month min · $4,500/mo',
+    summary:
+      'Consistent organic-search growth for teams ready to publish regularly.',
+    highlights: [
+      'Four long-form articles per month with schema and internal links',
+      'Rolling 30-day editorial calendar, refreshed every month',
+      'Internal-linking audit and fix sprint (up to 20 links/mo)',
+      'Monthly outcomes report with sessions, keyword movement, and ROI',
+    ],
+  },
+  {
+    slug: 'content-authority',
+    title: 'Content Authority',
+    tag: 'Retainer · 6-month min · $8,500/mo',
+    summary:
+      'Earn citations in ChatGPT, Claude, Perplexity, and Gemini — not just clicks.',
+    highlights: [
+      'Eight articles plus two citable assets every month',
+      'GEO layer: schema deepening, llms.txt, ai.txt maintained',
+      'Monthly LLM citation audit across 25 tracked prompts',
+      'Author authority program and quarterly strategy session',
+    ],
+  },
+];
+
+const siteUrl = Astro.site ?? new URL('https://wishfy.ai');
+const jsonLd = [
+  breadcrumbSchema(siteUrl, [
+    { name: 'Home', url: '/en/' },
+    { name: 'Services', url: '/en/services/' },
+  ]),
+];
+---
+
+<BaseLayout
+  title="Services"
+  description="Three productized content service packages: Ignition, Growth, and Authority. Explicit deliverables, honest prices."
+  jsonLd={jsonLd}
+>
+  <main>
+    <Section>
+      <Container>
+        <Hero
+          eyebrow="Services"
+          title="Three packages. No bespoke scoping."
+          lede="We picked three productized packages so quoting a prospect doesn't require a custom proposal every time. Pick the one that fits and we'll scope down if you need less."
+        >
+          <Button href="/en/contact/">Talk to us about scope →</Button>
+        </Hero>
+      </Container>
+    </Section>
+
+    <Section tone="muted">
+      <Container>
+        <ul class="grid list-none gap-5 p-0 m-0">
+          {
+            services.map((s) => (
+              <li>
+                <a
+                  href={`/en/services/${s.slug}/`}
+                  class="block rounded-lg border border-[var(--border-default)] bg-[var(--bg-surface)] p-8 transition-colors duration-[var(--motion-default)] ease-[var(--easing-default)] hover:border-[var(--text-accent)]"
+                >
+                  <p class="mb-2 text-footnote font-semibold uppercase tracking-[0.06em] text-[var(--text-accent)]">
+                    {s.tag}
+                  </p>
+                  <h2 class="mb-2 text-h3 font-bold text-[var(--text-primary)]">
+                    {s.title}
+                  </h2>
+                  <p class="mb-3 text-body-lg text-[var(--text-secondary)]">
+                    {s.summary}
+                  </p>
+                  <ul class="mb-4 ml-5 list-disc text-body text-[var(--text-secondary)]">
+                    {s.highlights.map((h) => (
+                      <li class="mb-1">{h}</li>
+                    ))}
+                  </ul>
+                  <p class="m-0 font-semibold text-[var(--link)]">Read more →</p>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </Container>
+    </Section>
+
+    <Section>
+      <Container>
+        <h2
+          class="mb-3 font-display text-h2 font-bold leading-tight text-[var(--text-primary)]"
+        >
+          Add-ons
+        </h2>
+        <p class="mb-8 text-body-lg text-[var(--text-secondary)]">
+          Quoted on top of any package, never bundled by default.
+        </p>
+        <div class="overflow-x-auto">
+          <table class="w-full border-collapse text-body">
+            <thead>
+              <tr>
+                <th
+                  class="border-b border-[var(--border-default)] px-4 py-3 text-left text-footnote font-semibold uppercase tracking-[0.06em] text-[var(--text-secondary)]"
+                >
+                  Add-on
+                </th>
+                <th
+                  class="border-b border-[var(--border-default)] px-4 py-3 text-left text-footnote font-semibold uppercase tracking-[0.06em] text-[var(--text-secondary)]"
+                >
+                  Indicative range
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="border-b border-[var(--border-default)] px-4 py-3"
+                  >Link outreach (10 targets/mo)</td
+                >
+                <td class="border-b border-[var(--border-default)] px-4 py-3"
+                  >+$1,500/mo</td
+                >
+              </tr>
+              <tr>
+                <td class="border-b border-[var(--border-default)] px-4 py-3"
+                  >Social adaptation (5 posts per article)</td
+                >
+                <td class="border-b border-[var(--border-default)] px-4 py-3"
+                  >+$800/mo</td
+                >
+              </tr>
+              <tr>
+                <td class="border-b border-[var(--border-default)] px-4 py-3"
+                  >Video script from article</td
+                >
+                <td class="border-b border-[var(--border-default)] px-4 py-3"
+                  >+$300/article</td
+                >
+              </tr>
+              <tr>
+                <td class="border-b border-[var(--border-default)] px-4 py-3"
+                  >Content translation (EN → NL/DE/FR)</td
+                >
+                <td class="border-b border-[var(--border-default)] px-4 py-3"
+                  >+$400/article/language</td
+                >
+              </tr>
+              <tr>
+                <td class="border-b border-[var(--border-default)] px-4 py-3"
+                  >Extra article beyond tier</td
+                >
+                <td class="border-b border-[var(--border-default)] px-4 py-3"
+                  >$650/article</td
+                >
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </Container>
+    </Section>
+  </main>
+</BaseLayout>

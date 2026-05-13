@@ -1,0 +1,32 @@
+---
+// Marketing hero: eyebrow + display title + lede + CTA slot.
+interface Props {
+  eyebrow?: string;
+  title: string;
+  lede?: string;
+}
+const { eyebrow, title, lede } = Astro.props;
+---
+
+<div class="max-w-[60rem]">
+  {
+    eyebrow && (
+      <p class="mb-3 text-footnote font-semibold uppercase tracking-[0.08em] text-[var(--text-accent)]">
+        {eyebrow}
+      </p>
+    )
+  }
+  <h1 class="mb-6 font-display text-h1 font-extrabold leading-tight text-[var(--text-primary)]">
+    {title}
+  </h1>
+  {
+    lede && (
+      <p class="mb-8 max-w-[44rem] text-body-xl text-[var(--text-secondary)]">
+        {lede}
+      </p>
+    )
+  }
+  <div class="flex flex-wrap gap-3">
+    <slot />
+  </div>
+</div>

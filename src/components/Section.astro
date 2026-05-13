@@ -1,0 +1,16 @@
+---
+// Vertical-rhythm section wrapper. `tone="muted"` swaps the surface colour.
+interface Props {
+  tone?: 'default' | 'muted';
+  class?: string;
+}
+const { tone = 'default', class: className = '' } = Astro.props;
+const toneClass =
+  tone === 'muted'
+    ? 'bg-[var(--bg-surface-alt)]'
+    : 'bg-[var(--bg-surface)]';
+---
+
+<section class:list={['py-16 md:py-24', toneClass, className]}>
+  <slot />
+</section>

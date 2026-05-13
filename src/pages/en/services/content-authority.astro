@@ -1,0 +1,117 @@
+---
+import ProseLayout from '@/layouts/ProseLayout.astro';
+import Button from '@/components/Button.astro';
+import { breadcrumbSchema, serviceSchema, faqSchema } from '@/lib/schema';
+
+const title = 'Content Authority';
+const summary =
+  'Full-service content engine designed to earn LLM citations as well as clicks. Eight articles plus two citable assets every month.';
+const url = '/en/services/content-authority/';
+const siteUrl = Astro.site ?? new URL('https://wishfy.ai');
+
+const faqs = [
+  {
+    q: 'What is a citable asset?',
+    a: 'Original data, a definitive guide, or a case study designed to earn citations from LLMs and editorial links — not a typical blog post.',
+  },
+  {
+    q: 'Why a 6-month minimum?',
+    a: "GEO and authority signals compound. Below six months we can't fairly evaluate whether the strategy is working.",
+  },
+  {
+    q: 'Which LLMs do you track?',
+    a: 'ChatGPT, Claude, Perplexity, and Gemini, across 25 tracked prompts per month with movement reporting.',
+  },
+];
+
+const jsonLd = [
+  breadcrumbSchema(siteUrl, [
+    { name: 'Home', url: '/en/' },
+    { name: 'Services', url: '/en/services/' },
+    { name: title, url },
+  ]),
+  serviceSchema({
+    siteUrl,
+    name: title,
+    description: summary,
+    url,
+    priceRange: '8500',
+  }),
+  faqSchema(faqs),
+];
+---
+
+<ProseLayout title={title} description={summary} jsonLd={jsonLd}>
+  <p class="meta"><a href="/en/services/">← All services</a></p>
+  <h1>{title}</h1>
+  <p class="lede">{summary}</p>
+
+  <table class="meta-table">
+    <tbody>
+      <tr><th>Format</th><td>Monthly retainer · 6-month minimum</td></tr>
+      <tr><th>Cadence</th><td>8 articles + 2 citable assets per month</td></tr>
+      <tr><th>Price</th><td>$8,500/mo</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Right when</h2>
+  <p>
+    The client wants to dominate their niche in both traditional search and
+    AI-generated answers, and needs content that earns citations — not just
+    clicks.
+  </p>
+
+  <h2>What you get (every month)</h2>
+  <ul>
+    <li>Eight long-form articles (1,500–2,500 words) — fully optimised, schema, internal linking, structured answer blocks</li>
+    <li>Two citable assets: original data piece, definitive guide, or case study designed to earn LLM citations and editorial links</li>
+    <li>GEO layer — schema deepening (Organization, Person, FAQPage, HowTo, Article, Dataset as appropriate), llms.txt and ai.txt configuration and maintenance</li>
+    <li>Monthly LLM citation audit across ChatGPT, Claude, Perplexity, and Gemini — 25 tracked prompts, movement report</li>
+    <li>Author authority program: structured author pages, byline placement, sameAs link maintenance</li>
+    <li>Quarterly strategy session (90 min, recorded) — competitive landscape, content pivots, next-quarter roadmap</li>
+  </ul>
+
+  <h2>What it does not include</h2>
+  <p>
+    Build work, paid media, or link outreach — available as add-ons quoted
+    separately.
+  </p>
+
+  <h2>Frequently asked</h2>
+  {
+    faqs.map((f) => (
+      <>
+        <h3>{f.q}</h3>
+        <p>{f.a}</p>
+      </>
+    ))
+  }
+
+  <hr />
+  <p><Button href="/en/contact/?topic=authority">Talk to us about Authority</Button></p>
+</ProseLayout>
+
+<style>
+  .lede {
+    font-size: var(--text-body-xl);
+    color: var(--text-secondary);
+    margin-bottom: var(--space-8);
+  }
+  .meta-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 0 var(--space-8);
+  }
+  .meta-table th,
+  .meta-table td {
+    text-align: left;
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--border-default);
+    font-size: var(--text-body);
+  }
+  .meta-table th {
+    color: var(--text-secondary);
+    font-weight: 600;
+    width: 8rem;
+  }
+</style>

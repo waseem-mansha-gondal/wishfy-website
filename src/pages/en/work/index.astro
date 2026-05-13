@@ -1,0 +1,82 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Container from '@/components/Container.astro';
+import Section from '@/components/Section.astro';
+import Hero from '@/components/Hero.astro';
+import Button from '@/components/Button.astro';
+import { breadcrumbSchema } from '@/lib/schema';
+
+const cases = [
+  {
+    slug: 'wishfy-as-its-own-client',
+    title: 'Wishfy as its own client',
+    client: 'Wishfy',
+    summary:
+      "We're building wishfy.ai in public — the schema, the GEO experiments, the visibility audit, all on the same site you're reading. The first case study is the team eating its own cooking.",
+    status: 'in-progress',
+  },
+];
+
+const siteUrl = Astro.site ?? new URL('https://wishfy.ai');
+const jsonLd = [
+  breadcrumbSchema(siteUrl, [
+    { name: 'Home', url: '/en/' },
+    { name: 'Work', url: '/en/work/' },
+  ]),
+];
+---
+
+<BaseLayout
+  title="Work"
+  description="Wishfy case studies — outcomes and method, not vanity metrics."
+  jsonLd={jsonLd}
+>
+  <main>
+    <Section>
+      <Container>
+        <Hero
+          eyebrow="Work"
+          title="Outcomes, not vanity metrics."
+          lede="We publish case studies that show real revenue lift and citation movement. Until a client gives us permission to publish theirs, we're documenting our own."
+        >
+          <Button href="/en/contact/">Become a case study →</Button>
+        </Hero>
+      </Container>
+    </Section>
+
+    <Section tone="muted">
+      <Container>
+        <ul class="grid list-none gap-5 p-0 m-0 grid-cols-1 md:grid-cols-2">
+          {
+            cases.map((c) => (
+              <li>
+                <a
+                  href={`/en/work/${c.slug}/`}
+                  class="block rounded-lg border border-[var(--border-default)] bg-[var(--bg-surface)] p-8 transition-colors duration-[var(--motion-default)] ease-[var(--easing-default)] hover:border-[var(--text-accent)]"
+                >
+                  <p class="mb-2 text-footnote font-semibold uppercase tracking-[0.06em] text-[var(--text-accent)]">
+                    {c.client}
+                  </p>
+                  <h2 class="mb-3 text-h3 font-bold text-[var(--text-primary)]">
+                    {c.title}
+                  </h2>
+                  <p class="mb-3 text-body-lg text-[var(--text-secondary)]">
+                    {c.summary}
+                  </p>
+                  <p class="m-0 text-body-sm text-[var(--text-secondary)]">
+                    {c.status === 'in-progress' ? 'In progress' : 'Published'}
+                  </p>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+        <p class="mt-10 max-w-prose text-body text-[var(--text-secondary)]">
+          More case studies will land here as engagements wrap. Until then,
+          wishfy.ai itself is the proof — every page on this site is built and
+          scored the way we build for clients.
+        </p>
+      </Container>
+    </Section>
+  </main>
+</BaseLayout>

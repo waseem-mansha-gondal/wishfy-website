@@ -1,0 +1,19 @@
+---
+// Max-width content container with horizontal padding (tokens drive both).
+interface Props {
+  class?: string;
+  prose?: boolean;
+}
+const { class: className = '', prose = false } = Astro.props;
+---
+
+<div
+  class:list={[
+    'mx-auto w-full',
+    prose ? 'max-w-prose' : 'max-w-container',
+    'px-[var(--container-pad-mobile)] md:px-[var(--container-pad-desktop)]',
+    className,
+  ]}
+>
+  <slot />
+</div>

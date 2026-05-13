@@ -1,0 +1,41 @@
+---
+// Branded button / link. Variants:
+//   primary  — solid accent (default)
+//   ghost    — outlined, transparent fill
+//   whatsapp — WhatsApp green
+interface Props {
+  href: string;
+  variant?: 'primary' | 'ghost' | 'whatsapp';
+  rel?: string;
+  target?: string;
+  class?: string;
+}
+const {
+  href,
+  variant = 'primary',
+  rel,
+  target,
+  class: className = '',
+} = Astro.props;
+
+const base =
+  'inline-flex items-center justify-center gap-2 rounded-md px-5 py-3 text-body font-semibold transition-colors duration-[var(--motion-default)] ease-[var(--easing-default)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg-surface)]';
+
+const variants: Record<NonNullable<Props['variant']>, string> = {
+  primary:
+    'bg-[var(--text-accent)] text-white hover:bg-[var(--link-hover)]',
+  ghost:
+    'border border-[var(--border-default)] bg-transparent text-[var(--text-primary)] hover:border-[var(--text-accent)] hover:text-[var(--text-accent)]',
+  whatsapp:
+    'bg-[var(--color-whatsapp)] text-white hover:opacity-90',
+};
+---
+
+<a
+  href={href}
+  rel={rel}
+  target={target}
+  class:list={[base, variants[variant], className]}
+>
+  <slot />
+</a>

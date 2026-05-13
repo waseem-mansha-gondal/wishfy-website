@@ -1,0 +1,90 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  jsonLd?: unknown[];
+}
+const { title, description, jsonLd } = Astro.props;
+---
+
+<BaseLayout
+  title={title}
+  {...(description !== undefined ? { description } : {})}
+  {...(jsonLd !== undefined ? { jsonLd } : {})}
+>
+  <main class="bg-[var(--bg-surface)]">
+    <article
+      class="mx-auto max-w-prose px-[var(--container-pad-mobile)] py-16 md:py-24 md:px-[var(--container-pad-desktop)] prose-wishfy"
+    >
+      <slot />
+    </article>
+  </main>
+</BaseLayout>
+
+<style is:global>
+  /* Scoped to ProseLayout's article — keeps WIS-8 prose styles working. */
+  .prose-wishfy h1 {
+    font-size: var(--text-h1);
+    font-weight: 800;
+    line-height: var(--leading-tight);
+    margin: 0 0 var(--space-6);
+    color: var(--text-primary);
+  }
+  .prose-wishfy h2 {
+    font-size: var(--text-h2);
+    font-weight: 700;
+    line-height: var(--leading-tight);
+    margin: var(--space-10) 0 var(--space-4);
+    color: var(--text-primary);
+  }
+  .prose-wishfy h3 {
+    font-size: var(--text-h4);
+    font-weight: 700;
+    margin: var(--space-6) 0 var(--space-2);
+    color: var(--text-primary);
+  }
+  .prose-wishfy p {
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-relaxed);
+    color: var(--text-primary);
+    margin: 0 0 var(--space-4);
+  }
+  .prose-wishfy ul,
+  .prose-wishfy ol {
+    margin: 0 0 var(--space-5);
+    padding-left: var(--space-6);
+    color: var(--text-primary);
+  }
+  .prose-wishfy li {
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-relaxed);
+    margin-bottom: var(--space-2);
+  }
+  .prose-wishfy a {
+    color: var(--link);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .prose-wishfy a:hover {
+    color: var(--link-hover);
+  }
+  .prose-wishfy hr {
+    border: 0;
+    border-top: 1px solid var(--border-default);
+    margin: var(--space-10) 0;
+  }
+  .prose-wishfy strong {
+    color: var(--text-primary);
+    font-weight: 700;
+  }
+  .prose-wishfy .meta a {
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-size: var(--text-body-sm);
+  }
+  .prose-wishfy .meta a:hover {
+    color: var(--text-accent);
+  }
+</style>

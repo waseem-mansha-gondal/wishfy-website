@@ -13,12 +13,17 @@
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { homedir } from 'node:os';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, '..');
+const COMPANY_ID = '408f79ba-0309-4659-a5b2-490f81c492e5';
+// Resolve relative to $HOME so the build works regardless of where the repo
+// (or a git worktree) lives on disk.
 const COMPANY_ROOT = resolve(
-  ROOT,
-  '../../../.paperclip/instances/default/companies/408f79ba-0309-4659-a5b2-490f81c492e5'
+  homedir(),
+  '.paperclip/instances/default/companies',
+  COMPANY_ID
 );
 
 const tokensPath = resolve(COMPANY_ROOT, 'brand/Brand-Tokens.json');
