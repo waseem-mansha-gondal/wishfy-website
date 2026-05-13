@@ -1,5 +1,5 @@
 ---
-import { getCollection } from "astro:content";
+import { getCollection, type CollectionEntry } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Container from "../../components/Container.astro";
 import Section from "../../components/Section.astro";
@@ -7,9 +7,12 @@ import Hero from "../../components/Hero.astro";
 import { breadcrumbSchema } from "../../lib/schema";
 import { formatDate } from "../../lib/format";
 
-const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
-  (a, b) => +b.data.pubDate - +a.data.pubDate,
-);
+const posts = (await getCollection("blog"))
+  .filter((e: CollectionEntry<"blog">) => !e.data.draft)
+  .sort(
+    (a: CollectionEntry<"blog">, b: CollectionEntry<"blog">) =>
+      +b.data.pubDate - +a.data.pubDate,
+  );
 
 const siteUrl = Astro.site ?? new URL("https://hello-client.pages.dev");
 const jsonLd = [
@@ -41,7 +44,7 @@ const jsonLd = [
         <p>Nothing here yet. Check back soon.</p>
       ) : (
         <ul class="post-list">
-          {posts.map((p) => (
+          {posts.map((p: CollectionEntry<"blog">) => (
             <li>
               <a href={`/blog/${p.slug}/`}>
                 <h2>{p.data.title}</h2>

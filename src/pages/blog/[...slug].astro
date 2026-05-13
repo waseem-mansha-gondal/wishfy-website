@@ -1,17 +1,20 @@
 ---
-import { getCollection } from "astro:content";
+import { getCollection, type CollectionEntry } from "astro:content";
 import ProseLayout from "../../layouts/ProseLayout.astro";
 import { breadcrumbSchema, articleSchema } from "../../lib/schema";
 import { formatDate } from "../../lib/format";
 
 export async function getStaticPaths() {
-  const entries = await getCollection("blog", ({ data }) => !data.draft);
-  return entries.map((entry) => ({
+  const entries = (await getCollection("blog")).filter(
+    (e: CollectionEntry<"blog">) => !e.data.draft,
+  );
+  return entries.map((entry: CollectionEntry<"blog">) => ({
     params: { slug: entry.slug },
     props: { entry },
   }));
 }
 
+type Props = { entry: CollectionEntry<"blog"> };
 const { entry } = Astro.props;
 const { Content } = await entry.render();
 const siteUrl = Astro.site ?? new URL("https://hello-client.pages.dev");

@@ -1,13 +1,19 @@
 ---
-import { getCollection } from "astro:content";
+import { getCollection, type CollectionEntry } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Container from "../../components/Container.astro";
 import Section from "../../components/Section.astro";
 import Hero from "../../components/Hero.astro";
 import { breadcrumbSchema } from "../../lib/schema";
 
-const services = (await getCollection("services", ({ data }) => !data.draft))
-  .sort((a, b) => a.data.order - b.data.order);
+type ServiceEntry = CollectionEntry<"services">;
+
+const services = (await getCollection("services"))
+  .filter((e: CollectionEntry<"services">) => !e.data.draft)
+  .sort(
+    (a: CollectionEntry<"services">, b: CollectionEntry<"services">) =>
+      a.data.order - b.data.order,
+  );
 
 const siteUrl = Astro.site ?? new URL("https://hello-client.pages.dev");
 const jsonLd = [
@@ -37,7 +43,7 @@ const jsonLd = [
     <Container>
       <ul class="service-list">
         {
-          services.map((s) => (
+          services.map((s: ServiceEntry) => (
             <li>
               <a href={`/services/${s.slug}/`}>
                 <span class="icon" aria-hidden="true">
@@ -48,7 +54,7 @@ const jsonLd = [
                   <p>{s.data.summary}</p>
                   {s.data.highlights.length > 0 && (
                     <ul class="highlights">
-                      {s.data.highlights.map((h) => (
+                      {s.data.highlights.map((h: string) => (
                         <li>{h}</li>
                       ))}
                     </ul>

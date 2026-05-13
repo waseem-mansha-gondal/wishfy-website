@@ -1,14 +1,19 @@
 ---
-import { getCollection } from "astro:content";
+import { getCollection, type CollectionEntry } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Container from "../../components/Container.astro";
 import Section from "../../components/Section.astro";
 import Hero from "../../components/Hero.astro";
 import { breadcrumbSchema } from "../../lib/schema";
 
-const cases = (
-  await getCollection("case-studies", ({ data }) => !data.draft)
-).sort((a, b) => +b.data.pubDate - +a.data.pubDate);
+const cases = (await getCollection("case-studies"))
+  .filter((e: CollectionEntry<"case-studies">) => !e.data.draft)
+  .sort(
+    (
+      a: CollectionEntry<"case-studies">,
+      b: CollectionEntry<"case-studies">,
+    ) => +b.data.pubDate - +a.data.pubDate,
+  );
 
 const siteUrl = Astro.site ?? new URL("https://hello-client.pages.dev");
 const jsonLd = [
@@ -40,7 +45,7 @@ const jsonLd = [
         <p>Case studies coming soon.</p>
       ) : (
         <ul class="cases">
-          {cases.map((c) => (
+          {cases.map((c: CollectionEntry<"case-studies">) => (
             <li>
               <a href={`/case-studies/${c.slug}/`}>
                 <p class="kicker">
@@ -51,7 +56,7 @@ const jsonLd = [
                 <p>{c.data.summary}</p>
                 {c.data.metrics.length > 0 && (
                   <dl class="metrics">
-                    {c.data.metrics.map((m) => (
+                    {c.data.metrics.map((m: { label: string; value: string }) => (
                       <div>
                         <dt>{m.label}</dt>
                         <dd>{m.value}</dd>

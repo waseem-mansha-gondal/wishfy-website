@@ -1,21 +1,21 @@
 ---
-import { getCollection } from "astro:content";
+import { getCollection, type CollectionEntry } from "astro:content";
 import ProseLayout from "../../layouts/ProseLayout.astro";
 import Button from "../../components/Button.astro";
 import { breadcrumbSchema, articleSchema } from "../../lib/schema";
 import { formatDate } from "../../lib/format";
 
 export async function getStaticPaths() {
-  const entries = await getCollection(
-    "case-studies",
-    ({ data }) => !data.draft,
+  const entries = (await getCollection("case-studies")).filter(
+    (e: CollectionEntry<"case-studies">) => !e.data.draft,
   );
-  return entries.map((entry) => ({
+  return entries.map((entry: CollectionEntry<"case-studies">) => ({
     params: { slug: entry.slug },
     props: { entry },
   }));
 }
 
+type Props = { entry: CollectionEntry<"case-studies"> };
 const { entry } = Astro.props;
 const { Content } = await entry.render();
 const siteUrl = Astro.site ?? new URL("https://hello-client.pages.dev");
@@ -56,7 +56,7 @@ const jsonLd = [
   {
     entry.data.metrics.length > 0 && (
       <dl class="metrics">
-        {entry.data.metrics.map((m) => (
+        {entry.data.metrics.map((m: { label: string; value: string }) => (
           <div>
             <dt>{m.label}</dt>
             <dd>{m.value}</dd>
